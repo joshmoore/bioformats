@@ -473,7 +473,7 @@ Type "ant -p" for a list of targets.
 
   <target name="test-scifio" depends="jar-scifio"
     description="compile and run tests for SCIFIO">
-    <ant dir="components/scifio" target="test"/>
+    <ant dir="components/scifio" target="scifio.test"/>
   </target>
 
   <!-- Bio-Formats -->
@@ -524,7 +524,7 @@ Type "ant -p" for a list of targets.
 
   <target name="test-formats" depends="jar-formats"
     description="compile and run tests for Bio-Formats">
-    <ant dir="components/bio-formats" target="test"/>
+    <ant dir="components/bio-formats" target="formats.test"/>
   </target>
 
   <!-- LOCI autogen -->
@@ -649,7 +649,7 @@ Type "ant -p" for a list of targets.
 
   <target name="test-ome-io" depends="jar-ome-io"
     description="compile and run tests for OME I/O">
-    <ant dir="components/ome-io" target="test"/>
+    <ant dir="components/ome-io" target="ome-io.test"/>
   </target>
 
   <!-- OME Plugins for ImageJ -->
