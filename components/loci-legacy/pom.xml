@@ -12,12 +12,11 @@
     <relativePath>../..</relativePath>
   </parent>
 
-  <artifactId>scifio-devel</artifactId>
+  <artifactId>loci-legacy</artifactId>
 
-  <name>SCIFIO-devel</name>
-  <description>SCientific Image Format Input and Output: an open source
-    framework for reading and writing scientific image file formats, and
-    converting metadata between standards.</description>
+  <name>Loci-Legacy</name>
+  <description>Legacy layer of delegating classes to preserve
+  backwards compatibility between the legacy Bio-Formats classes and SCIFIO.</description>
   <url>http://loci.wisc.edu/software</url>
   <inceptionYear>2005</inceptionYear>
 
@@ -30,6 +29,12 @@
   </licenses>
 
   <dependencies>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>scifio-devel</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+
     <!-- NB: dependency:analyze has false warning about xml-apis:xml-apis. -->
 
     <dependency>
@@ -37,11 +42,6 @@
       <artifactId>log4j</artifactId>
       <version>1.2.14</version>
       <scope>runtime</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-api</artifactId>
-      <version>1.5.10</version>
     </dependency>
     <dependency>
       <!-- NB: We want this, despite warning from dependency:analyze. -->
@@ -64,6 +64,7 @@
       <version>2.7.1</version>
       <scope>runtime</scope>
     </dependency>
+
     <dependency>
       <groupId>org.testng</groupId>
       <artifactId>testng</artifactId>
@@ -75,25 +76,11 @@
   <build>
     <plugins>
       <plugin>
-        <groupId>loci.maven.plugins</groupId>
-        <artifactId>cppwrap-maven-plugin</artifactId>
-        <version>1.1.0</version>
-        <configuration>
-          <headerFile>cppwrap/header.txt</headerFile>
-          <conflictsFile>cppwrap/conflicts.txt</conflictsFile>
-          <coreFile>cppwrap/core.txt</coreFile>
-          <sourceDir>cppwrap</sourceDir>
-          <libraries>
-            <library>${project.groupId}:ome-xml:jar:${project.version}</library>
-          </libraries>
-        </configuration>
-      </plugin>
-      <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>license-maven-plugin</artifactId>
         <configuration>
-          <licenseName>scifio</licenseName>
-          <projectName>OME SCIFIO package for reading and converting scientific file formats.</projectName>
+          <licenseName>loci-legacy</licenseName>
+          <projectName>Legacy layer preserving compatibility between legacy Bio-Formats and SCIFIO.</projectName>
         </configuration>
       </plugin>
     </plugins>
@@ -120,7 +107,7 @@
       <id>melissa</id>
       <name>Melissa Linkert</name>
       <email>melissa.linkert@glencoesoftware.com</email>
-      <url>http://www.openmicroscopy.org/site/about/development-teams/glencoe-software</url>
+      <url>http://openmicroscopy.org/site/about/development-teams/glencoe-software</url>
       <organization>Glencoe Software</organization>
       <organizationUrl>http://glencoesoftware.com/</organizationUrl>
       <roles>
@@ -129,7 +116,7 @@
       </roles>
       <timezone>-6</timezone>
       <properties>
-        <picUrl>http://www.openmicroscopy.org/site/about/development-teams/glencoe-software/melissalinkert.png</picUrl>
+        <picUrl>http://openmicroscopy.org/site/about/development-teams/glencoe-software/melissalinkert.png</picUrl>
       </properties>
     </developer>
     <developer>
