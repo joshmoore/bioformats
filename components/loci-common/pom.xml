@@ -34,6 +34,11 @@
       <artifactId>loci-legacy</artifactId>
       <version>${project.version}</version>
     </dependency>
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>scifio-devel</artifactId>
+      <version>${project.version}</version>
+    </dependency>
   </dependencies>
 
   <build>
