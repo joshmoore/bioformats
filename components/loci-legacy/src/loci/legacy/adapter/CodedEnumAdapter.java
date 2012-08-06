@@ -130,6 +130,23 @@ public class CodedEnumAdapter implements
     public int getCode() {
       return ce.getCode();
     }
+    
+    // -- Object delegators --
+
+    @Override
+    public boolean equals(Object obj) {
+      return ce.equals(obj);
+    }
+    
+    @Override
+    public int hashCode() {
+      return ce.hashCode();
+    }
+    
+    @Override
+    public String toString() {
+      return ce.toString();
+    }
   }
   
   public static class SCIFIOWrapper implements CodedEnum {
@@ -148,6 +165,23 @@ public class CodedEnumAdapter implements
 
     public int getCode() {
       return ce.getCode();
+    }
+    
+    // -- Object delegators --
+
+    @Override
+    public boolean equals(Object obj) {
+      return ce.equals(obj);
+    }
+    
+    @Override
+    public int hashCode() {
+      return ce.hashCode();
+    }
+    
+    @Override
+    public String toString() {
+      return ce.toString();
     }
   }
 }

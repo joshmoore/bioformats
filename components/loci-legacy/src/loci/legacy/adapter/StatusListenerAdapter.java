@@ -131,6 +131,23 @@ public class StatusListenerAdapter implements
     public void statusUpdated(ome.scifio.common.StatusEvent e) {
       sl.statusUpdated(new StatusEvent(e));
     }
+    
+    // -- Object delegators --
+
+    @Override
+    public boolean equals(Object obj) {
+      return sl.equals(obj);
+    }
+    
+    @Override
+    public int hashCode() {
+      return sl.hashCode();
+    }
+    
+    @Override
+    public String toString() {
+      return sl.toString();
+    }
 
   }
   
@@ -150,6 +167,23 @@ public class StatusListenerAdapter implements
 
     public void statusUpdated(loci.common.StatusEvent e) {
       sl.statusUpdated(e.getEvent());
+    }
+    
+    // -- Object delegators --
+
+    @Override
+    public boolean equals(Object obj) {
+      return sl.equals(obj);
+    }
+    
+    @Override
+    public int hashCode() {
+      return sl.hashCode();
+    }
+    
+    @Override
+    public String toString() {
+      return sl.toString();
     }
 
   }

@@ -295,6 +295,22 @@ public class IRandomAccessAdapter implements
       ira.writeUTF(s);
     }
     
+    // -- Object delegators --
+
+    @Override
+    public boolean equals(Object obj) {
+      return ira.equals(obj);
+    }
+    
+    @Override
+    public int hashCode() {
+      return ira.hashCode();
+    }
+    
+    @Override
+    public String toString() {
+      return ira.toString();
+    }
   }
   
   public static class SCIFIOWrapper implements IRandomAccess {
@@ -473,6 +489,23 @@ public class IRandomAccessAdapter implements
 
     public void write(ByteBuffer buf, int off, int len) throws IOException {
       ira.write(buf, off, len);
+    }
+    
+    // -- Object delegators --
+
+    @Override
+    public boolean equals(Object obj) {
+      return ira.equals(obj);
+    }
+    
+    @Override
+    public int hashCode() {
+      return ira.hashCode();
+    }
+    
+    @Override
+    public String toString() {
+      return ira.toString();
     }
   }
 }

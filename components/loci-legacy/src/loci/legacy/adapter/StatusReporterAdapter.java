@@ -57,7 +57,7 @@ import loci.common.StatusReporter;
  * @author Mark Hiner
  *
  */
-public class StatusReporterListener implements 
+public class StatusReporterAdapter implements 
   LegacyAdapter<StatusReporter, ome.scifio.common.StatusReporter> {
   
   // -- Fields --
@@ -143,6 +143,22 @@ public class StatusReporterListener implements
       sr.notifyListeners(new StatusEvent(e));
     }
     
+    // -- Object delegators --
+
+    @Override
+    public boolean equals(Object obj) {
+      return sr.equals(obj);
+    }
+    
+    @Override
+    public int hashCode() {
+      return sr.hashCode();
+    }
+    
+    @Override
+    public String toString() {
+      return sr.toString();
+    }
   }
   
   public static class SCIFIOWrapper implements StatusReporter {
@@ -172,6 +188,23 @@ public class StatusReporterListener implements
 
     public void notifyListeners(StatusEvent e) {
       sr.notifyListeners(e.getEvent());
+    }
+    
+    // -- Object delegators --
+
+    @Override
+    public boolean equals(Object obj) {
+      return sr.equals(obj);
+    }
+    
+    @Override
+    public int hashCode() {
+      return sr.hashCode();
+    }
+    
+    @Override
+    public String toString() {
+      return sr.toString();
     }
   }
 }

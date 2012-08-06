@@ -469,7 +469,7 @@ public class Location {
   public URL toURL() throws MalformedURLException {
     return loc.toURL();
   }
-
+  
   /**
    * @see java.io.File#toString()
    * @see java.net.URL#toString()
@@ -477,5 +477,4 @@ public class Location {
   public String toString() {
     return loc.toString();
   }
-
 }
