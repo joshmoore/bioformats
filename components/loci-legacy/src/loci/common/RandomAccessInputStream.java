@@ -41,6 +41,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
 
+import loci.legacy.adapter.IRandomAccessAdapter;
+
 /**
  * A legacy delegator class for ome.scifio.io.RandomAccessInputStream
  * 
@@ -59,6 +61,8 @@ public class RandomAccessInputStream extends InputStream implements DataInput {
 
   private ome.scifio.io.RandomAccessInputStream rais;
   
+  private IRandomAccessAdapter adapter = new IRandomAccessAdapter();
+  
   // -- Constructors --
 
   /**
@@ -71,7 +75,8 @@ public class RandomAccessInputStream extends InputStream implements DataInput {
 
   /** Constructs a random access stream around the given handle. */
   public RandomAccessInputStream(IRandomAccess handle) throws IOException {
-    rais = new ome.scifio.io.RandomAccessInputStream(handle);
+    rais = 
+      new ome.scifio.io.RandomAccessInputStream(adapter.getCurrent(handle));
   }
 
   /**
@@ -81,7 +86,8 @@ public class RandomAccessInputStream extends InputStream implements DataInput {
   public RandomAccessInputStream(IRandomAccess handle, String file)
     throws IOException
   {
-    rais = new ome.scifio.io.RandomAccessInputStream(handle, file);
+    rais = 
+      new ome.scifio.io.RandomAccessInputStream(adapter.getCurrent(handle), file);
   }
 
   /** Constructs a random access stream around the given byte array. */
@@ -121,6 +127,7 @@ public class RandomAccessInputStream extends InputStream implements DataInput {
   /** Closes the streams. */
   public void close() throws IOException {
     rais.close();
+    adapter.clear();
   }
 
   /** Sets the endianness of the stream. */

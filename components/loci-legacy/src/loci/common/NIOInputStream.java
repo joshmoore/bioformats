@@ -41,6 +41,8 @@ import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import loci.legacy.adapter.IRandomAccessAdapter;
+
 /**
  * A legacy delegator class for ome.scifio.io.NIOInputStream.
  * <dl><dt><b>Source code:</b></dt>
@@ -55,6 +57,8 @@ public class NIOInputStream extends InputStream implements DataInput {
   // -- Fields --
 
   private ome.scifio.io.NIOInputStream stream;
+  
+  private IRandomAccessAdapter adapter = new IRandomAccessAdapter();
 
   // -- Constructors --
 
@@ -65,7 +69,7 @@ public class NIOInputStream extends InputStream implements DataInput {
 
   /** Constructs a random access stream around the given handle. */
   public NIOInputStream(IRandomAccess handle) {
-    stream = new ome.scifio.io.NIOInputStream(handle);
+    stream = new ome.scifio.io.NIOInputStream(adapter.getCurrent(handle));
   }
 
   /** Constructs a random access stream around the given byte array. */
@@ -111,6 +115,7 @@ public class NIOInputStream extends InputStream implements DataInput {
   /** Closes the streams. */
   public void close() throws IOException {
     stream.close();
+    adapter.clear();
   }
 
   /** Sets the endianness of the stream. */

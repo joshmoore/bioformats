@@ -42,6 +42,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
 
+import loci.legacy.adapter.IRandomAccessAdapter;
+
 // HACK: for scan-deps.pl: The following packages are not actually "optional":
 // optional org.apache.log4j, optional org.slf4j.impl
 
@@ -59,6 +61,8 @@ public class Location {
   // -- Static fields --
 
   // -- Fields --
+  
+  private static IRandomAccessAdapter adapter = new IRandomAccessAdapter();
 
   protected ome.scifio.io.Location loc;
 
@@ -97,6 +101,7 @@ public class Location {
    */
   public static void reset() {
     ome.scifio.io.Location.reset();
+    adapter.clear();
   }
 
   /**
@@ -161,7 +166,7 @@ public class Location {
 
   /** Maps the given id to the given IRandomAccess object. */
   public static void mapFile(String id, IRandomAccess ira) {
-    ome.scifio.io.Location.mapFile(id, ira);
+    ome.scifio.io.Location.mapFile(id, adapter.getCurrent(ira));
   }
 
   /**
@@ -179,7 +184,7 @@ public class Location {
 
   /** Gets the random access handle for the given id. */
   public static IRandomAccess getMappedFile(String id) {
-    return (IRandomAccess) ome.scifio.io.Location.getMappedFile(id);
+    return adapter.getLegacy(ome.scifio.io.Location.getMappedFile(id));
   }
 
   /** Return the id mapping. */
@@ -201,7 +206,7 @@ public class Location {
    * @see IRandomAccess
    */
   public static IRandomAccess getHandle(String id) throws IOException {
-    return (IRandomAccess) ome.scifio.io.Location.getHandle(id);
+    return adapter.getLegacy(ome.scifio.io.Location.getHandle(id));
   }
 
   /**
@@ -211,7 +216,7 @@ public class Location {
   public static IRandomAccess getHandle(String id, boolean writable)
     throws IOException
   {
-    return (IRandomAccess) ome.scifio.io.Location.getHandle(id, writable, true);
+    return adapter.getLegacy(ome.scifio.io.Location.getHandle(id, writable, true));
   }
 
   /**
@@ -221,7 +226,8 @@ public class Location {
   public static IRandomAccess getHandle(String id, boolean writable,
     boolean allowArchiveHandles) throws IOException
   {
-    return (IRandomAccess) ome.scifio.io.Location.getHandle(id, writable, allowArchiveHandles);
+    return adapter.getLegacy(
+      ome.scifio.io.Location.getHandle(id, writable, allowArchiveHandles));
   }
 
   /**
