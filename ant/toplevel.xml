@@ -448,7 +448,7 @@ Type "ant -p" for a list of targets.
 
   <target name="test-scifio" depends="jar-scifio"
     description="compile and run tests for SCIFIO">
-    <ant dir="components/scifio" target="scifio.test"/>
+    <ant dir="components/scifio" target="test"/>
   </target>
 
   <!-- SCIFIO -->
@@ -489,7 +489,7 @@ Type "ant -p" for a list of targets.
 
   <target name="test-scifio-devel" depends="jar-scifio-devel"
     description="compile and run tests for SCIFIO-devel">
-    <ant dir="components/scifio-devel" target="scifio-devel.test"/>
+    <ant dir="components/scifio-devel" target="test"/>
   </target>
 
   <!-- Bio-Formats -->
@@ -576,7 +576,7 @@ Type "ant -p" for a list of targets.
 
   <target name="test-loci-legacy" depends="jar-loci-legacy"
     description="compile and run tests for Loci-Legacy ">
-    <ant dir="components/loci-legacy" target="loci-legacy.test"/>
+    <ant dir="components/loci-legacy" target="test"/>
   </target>
 
   <!-- LOCI common (mirrors Loci Legacy) -->
