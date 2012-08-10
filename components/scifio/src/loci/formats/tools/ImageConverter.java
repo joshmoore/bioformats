@@ -498,7 +498,9 @@ public final class ImageConverter {
   private long convertPlane(IFormatWriter writer, int index, int startPlane)
     throws FormatException, IOException
   {
-    if (width * height >= 4096 * 4096) {
+    if (DataTools.safeMultiply64(width, height) >=
+      DataTools.safeMultiply64(4096, 4096))
+    {
       // this is a "big image", so we will attempt to convert it one tile
       // at a time
 
@@ -522,20 +524,29 @@ public final class ImageConverter {
   private long convertTilePlane(IFormatWriter writer, int index, int startPlane)
     throws FormatException, IOException
   {
-    int w = width;
-    int h = 1;
+    int w = reader.getOptimalTileWidth();
+    int h = reader.getOptimalTileHeight();
     int nXTiles = width / w;
     int nYTiles = height / h;
 
+    if (nXTiles * w != width) {
+      nXTiles++;
+    }
+    if (nYTiles * h != height) {
+      nYTiles++;
+    }
+
     IFD ifd = new IFD();
+    ifd.put(IFD.TILE_WIDTH, w);
+    ifd.put(IFD.TILE_LENGTH, h);
 
     Long m = null;
     for (int y=0; y<nYTiles; y++) {
       for (int x=0; x<nXTiles; x++) {
         int tileX = xCoordinate + x * w;
         int tileY = yCoordinate + y * h;
-        int tileWidth = x < nXTiles - 1 ? w : w - (width % w);
-        int tileHeight = y < nYTiles - 1 ? h : h - (height % h);
+        int tileWidth = x < nXTiles - 1 ? w : width % w;
+        int tileHeight = y < nYTiles - 1 ? h : height % h;
         byte[] buf =
           reader.openBytes(index, tileX, tileY, tileWidth, tileHeight);
 
@@ -544,8 +555,6 @@ public final class ImageConverter {
         if (m == null) {
           m = System.currentTimeMillis();
         }
-        ifd.put(IFD.TILE_WIDTH, tileWidth);
-        ifd.put(IFD.TILE_LENGTH, tileHeight);
 
         if (writer instanceof TiffWriter) {
           ((TiffWriter) writer).saveBytes(index - startPlane, buf,
