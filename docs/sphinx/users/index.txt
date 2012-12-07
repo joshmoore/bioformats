@@ -2,6 +2,11 @@
 User Information
 ****************
 
+Using Bio-Formats eliminates tediously reimplementing your own IO libraries.
+:omerodoc:`OMERO <>` itself uses Bio-Formats in order to parse all data and
+store it in the database. Other projects have similarly taken Bio-Formats
+and produced incredibly useful tools for bio-imaging.
+
 
 Using Bio-Formats with ImageJ and Fiji
 ======================================
@@ -26,14 +31,6 @@ it within :doc:`imagej/index` and :doc:`fiji/index`:
     imagej/load-images
     imagej/managing-memory
     imagej/upgrading-importer
-
-
-OMERO
-=====
-
-OMERO.importer uses Bio-Formats to read image pixels and propagate metadata 
-into the OMERO.server system. Please refer to the 
-:omerodoc:`OMERO documentation <>` for further information.
 
 
 |
