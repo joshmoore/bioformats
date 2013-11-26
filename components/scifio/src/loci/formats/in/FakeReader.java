@@ -108,6 +108,9 @@ public class FakeReader extends FormatReader {
 
   // -- Fields --
 
+  /** failure conditions which will be simulated during execution */
+  private final List<String> failures = new ArrayList<String>();
+
   /** exposure time per plane info */
   private Float exposureTime = null;
 
@@ -160,6 +163,9 @@ public class FakeReader extends FormatReader {
   public byte[] openBytes(int no, byte[] buf, int x, int y, int w, int h)
     throws FormatException, IOException
   {
+    if (failures.contains("iobytes")) {
+      throw new IOException("Fake exception on openBytes");
+    }
     FormatTools.checkPlaneParameters(this, no, buf.length, x, y, w, h);
 
     final int s = getSeries();
@@ -302,6 +308,9 @@ public class FakeReader extends FormatReader {
   public void close(boolean fileOnly) throws IOException {
     iniFile = null;
     super.close(fileOnly);
+    if (failures.contains("ioclose")) {
+      throw new IOException("Fake error on close");
+    }
   }
 
   public OMEXMLMetadata getOmeXmlMetadata() {
@@ -328,6 +337,7 @@ public class FakeReader extends FormatReader {
 
   @Override
   protected void initFile(String id) throws FormatException, IOException {
+
     if (!checkSuffix(id, "fake")) {
       if (checkSuffix(id, "fake.ini")) {
         id = id.substring(0, id.lastIndexOf("."));
@@ -484,6 +494,8 @@ public class FakeReader extends FormatReader {
           color = (int) Long.parseLong(value, base);
         }
         catch (NumberFormatException e) { }
+      } else if (key.equals("failures")) {
+        this.failures.addAll(Arrays.asList(value.split(",")));
       }
     }
 
@@ -600,6 +612,11 @@ public class FakeReader extends FormatReader {
       }
       // NB: Other pixel types will have null LUTs.
     }
+
+    if (failures.contains("fmtinit")) {
+      throw new FormatException("Fake exception on initFile");
+    }
+
   }
 
   private void fillExposureTime(MetadataStore store) {
