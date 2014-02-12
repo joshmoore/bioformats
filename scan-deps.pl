@@ -97,18 +97,6 @@ ZZ
   LICENSE => "GPL",
 );
 
-my %omeIO = (
-  NAME    => "ome-io",
-  TITLE   => "OME I/O",
-  PATH    => "components/ome-io",
-  JAR     => "ome-io.jar",
-  PACKAGE => "loci.ome.io",
-  DESC    => <<ZZ,
-A library for OME database import, upload and download
-ZZ
-  LICENSE => "GPL",
-);
-
 my %omeXML = (
   NAME    => "ome-xml",
   TITLE   => "OME-XML Java library",
