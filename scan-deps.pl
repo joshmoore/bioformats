@@ -404,19 +404,6 @@ ZZ
   VERSION => "4.3.19"
 );
 
-my %omeJava = (
-  NAME    => "ome-java",
-  TITLE   => "OME-Java",
-  JAR     => "ome-java.jar",
-  PACKAGE => "org.openmicroscopy.[di]s",
-  LICENSE => "LGPL",
-  URL     => "http://www.openmicroscopy.org/site/documents/data-management/".
-             "ome-server/developer/java-api",
-  NOTES   => <<ZZ,
-used by OME I/O to connect to OME servers
-ZZ
-);
-
 my %omeroClient = (
   NAME    => "omero-client",
   TITLE   => "OMERO Client",
