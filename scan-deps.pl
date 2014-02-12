@@ -109,19 +109,6 @@ ZZ
   LICENSE => "GPL",
 );
 
-my %omePlugins = (
-  NAME    => "ome-plugins",
-  TITLE   => "OME Plugins for ImageJ",
-  PATH    => "components/ome-plugins",
-  JAR     => "ome_plugins.jar",
-  PACKAGE => "loci.plugins.ome",
-  DESC    => <<ZZ,
-A collection of plugins for ImageJ, including the Download from OME and Upload
-to OME plugins
-ZZ
-  LICENSE => "GPL",
-);
-
 my %omeXML = (
   NAME    => "ome-xml",
   TITLE   => "OME-XML Java library",
