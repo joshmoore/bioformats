@@ -391,19 +391,6 @@ ZZ
   VERSION => "4.3.19"
 );
 
-my %omeroClient = (
-  NAME    => "omero-client",
-  TITLE   => "OMERO Client",
-  JAR     => "omero_client.jar",
-  PACKAGE => "ome\\(.system\\|ro.api\\)",
-  LICENSE => "GPL",
-  URL     => "http://trac.openmicroscopy.org.uk/ome/wiki/MilestoneDownloads",
-  NOTES   => <<ZZ,
-used by OME I/O to connect to OMERO servers
-ZZ
-  VERSION => "4.3.1"
-);
-
 my %slf4j_api = (
   NAME    => "slf4j-api",
   TITLE   => "Simple Logging Facade for Java API",
@@ -541,7 +528,6 @@ my @libs = (
   \%netcdf,
   \%slf4j_api,
   \%omeJava,
-  \%omeroClient,
   \%serializer,
   \%testng,
   \%velocity,
