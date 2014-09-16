@@ -125,6 +125,19 @@ public class MemoizerTest {
   }
 
   @Test
+  public void testInPlaceCaching() throws Exception {
+      memoizer = new Memoizer(reader, 0, true);
+      memoizer.setId(id);
+      assertFalse(memoizer.isLoadedFromMemo());
+      assertTrue(memoizer.isSavedToMemo());
+      memoizer.close();
+      memoizer.setId(id);
+      assertTrue(memoizer.isLoadedFromMemo());
+      assertTrue(memoizer.isSavedToMemo());
+      memoizer.close();
+  }
+
+  @Test
   public void testGetMemoFileNoTimeElapsed() throws Exception {
       memoizer = new Memoizer(reader);
       File f = memoizer.getMemoFile(id);
