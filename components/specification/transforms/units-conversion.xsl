@@ -1607,12 +1607,12 @@
 					<xsl:when test="$theNewUnit = 'zm'"><xsl:value-of select="$theValue * 0 + 1000000000000000000000000000000000000000000000"/></xsl:when>
 					<xsl:when test="$theNewUnit = 'ym'"><xsl:value-of select="$theValue * 0 + 1000000000000000000000000000000000000000000000000"/></xsl:when>
 					<xsl:when test="$theNewUnit = 'Å'"><xsl:value-of select="$theValue * 0 + 10000000000000000000000000000000000"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'li'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'in'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'ft'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'yd'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'mi'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'pt'"><xsl:value-of select="EQUALS"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'li'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'in'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'ft'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'yd'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'mi'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'pt'"><xsl:value-of select="$theValue"/></xsl:when>
 					<xsl:otherwise>
 						<xsl:message terminate="yes">OME-XSLT: units-conversion.xsl - ERROR - ConvertValueToUnit, cannot perform conversion, [<xsl:value-of select="$theCurrentUnit"/>] to [<xsl:value-of select="$theNewUnit"/>] is not supported.</xsl:message>
 					</xsl:otherwise>
@@ -1649,12 +1649,12 @@
 					<xsl:when test="$theNewUnit = 'zm'"><xsl:value-of select="$theValue * 0 + 1000000000000000000000000000000000000000000"/></xsl:when>
 					<xsl:when test="$theNewUnit = 'ym'"><xsl:value-of select="$theValue * 0 + 1000000000000000000000000000000000000000000000"/></xsl:when>
 					<xsl:when test="$theNewUnit = 'Å'"><xsl:value-of select="$theValue * 0 + 10000000000000000000000000000000"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'li'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'in'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'ft'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'yd'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'mi'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'pt'"><xsl:value-of select="EQUALS"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'li'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'in'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'ft'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'yd'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'mi'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'pt'"><xsl:value-of select="$theValue"/></xsl:when>
 					<xsl:otherwise>
 						<xsl:message terminate="yes">OME-XSLT: units-conversion.xsl - ERROR - ConvertValueToUnit, cannot perform conversion, [<xsl:value-of select="$theCurrentUnit"/>] to [<xsl:value-of select="$theNewUnit"/>] is not supported.</xsl:message>
 					</xsl:otherwise>
@@ -1691,12 +1691,12 @@
 					<xsl:when test="$theNewUnit = 'zm'"><xsl:value-of select="$theValue * 0 + 1000000000000000000000000000000000000000"/></xsl:when>
 					<xsl:when test="$theNewUnit = 'ym'"><xsl:value-of select="$theValue * 0 + 1000000000000000000000000000000000000000000"/></xsl:when>
 					<xsl:when test="$theNewUnit = 'Å'"><xsl:value-of select="$theValue * 0 + 10000000000000000000000000000"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'li'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'in'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'ft'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'yd'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'mi'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'pt'"><xsl:value-of select="EQUALS"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'li'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'in'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'ft'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'yd'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'mi'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'pt'"><xsl:value-of select="$theValue"/></xsl:when>
 					<xsl:otherwise>
 						<xsl:message terminate="yes">OME-XSLT: units-conversion.xsl - ERROR - ConvertValueToUnit, cannot perform conversion, [<xsl:value-of select="$theCurrentUnit"/>] to [<xsl:value-of select="$theNewUnit"/>] is not supported.</xsl:message>
 					</xsl:otherwise>
@@ -1733,12 +1733,12 @@
 					<xsl:when test="$theNewUnit = 'zm'"><xsl:value-of select="$theValue * 0 + 1000000000000000000000000000000000000"/></xsl:when>
 					<xsl:when test="$theNewUnit = 'ym'"><xsl:value-of select="$theValue * 0 + 1000000000000000000000000000000000000000"/></xsl:when>
 					<xsl:when test="$theNewUnit = 'Å'"><xsl:value-of select="$theValue * 0 + 10000000000000000000000000"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'li'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'in'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'ft'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'yd'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'mi'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'pt'"><xsl:value-of select="EQUALS"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'li'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'in'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'ft'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'yd'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'mi'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'pt'"><xsl:value-of select="$theValue"/></xsl:when>
 					<xsl:otherwise>
 						<xsl:message terminate="yes">OME-XSLT: units-conversion.xsl - ERROR - ConvertValueToUnit, cannot perform conversion, [<xsl:value-of select="$theCurrentUnit"/>] to [<xsl:value-of select="$theNewUnit"/>] is not supported.</xsl:message>
 					</xsl:otherwise>
@@ -1775,12 +1775,12 @@
 					<xsl:when test="$theNewUnit = 'zm'"><xsl:value-of select="$theValue * 0 + 1000000000000000000000000000000000"/></xsl:when>
 					<xsl:when test="$theNewUnit = 'ym'"><xsl:value-of select="$theValue * 0 + 1000000000000000000000000000000000000"/></xsl:when>
 					<xsl:when test="$theNewUnit = 'Å'"><xsl:value-of select="$theValue * 0 + 10000000000000000000000"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'li'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'in'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'ft'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'yd'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'mi'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'pt'"><xsl:value-of select="EQUALS"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'li'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'in'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'ft'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'yd'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'mi'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'pt'"><xsl:value-of select="$theValue"/></xsl:when>
 					<xsl:otherwise>
 						<xsl:message terminate="yes">OME-XSLT: units-conversion.xsl - ERROR - ConvertValueToUnit, cannot perform conversion, [<xsl:value-of select="$theCurrentUnit"/>] to [<xsl:value-of select="$theNewUnit"/>] is not supported.</xsl:message>
 					</xsl:otherwise>
@@ -1817,12 +1817,12 @@
 					<xsl:when test="$theNewUnit = 'zm'"><xsl:value-of select="$theValue * 0 + 1000000000000000000000000000000"/></xsl:when>
 					<xsl:when test="$theNewUnit = 'ym'"><xsl:value-of select="$theValue * 0 + 1000000000000000000000000000000000"/></xsl:when>
 					<xsl:when test="$theNewUnit = 'Å'"><xsl:value-of select="$theValue * 0 + 10000000000000000000"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'li'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'in'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'ft'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'yd'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'mi'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'pt'"><xsl:value-of select="EQUALS"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'li'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'in'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'ft'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'yd'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'mi'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'pt'"><xsl:value-of select="$theValue"/></xsl:when>
 					<xsl:otherwise>
 						<xsl:message terminate="yes">OME-XSLT: units-conversion.xsl - ERROR - ConvertValueToUnit, cannot perform conversion, [<xsl:value-of select="$theCurrentUnit"/>] to [<xsl:value-of select="$theNewUnit"/>] is not supported.</xsl:message>
 					</xsl:otherwise>
@@ -1859,12 +1859,12 @@
 					<xsl:when test="$theNewUnit = 'zm'"><xsl:value-of select="$theValue * 0 + 1000000000000000000000000000"/></xsl:when>
 					<xsl:when test="$theNewUnit = 'ym'"><xsl:value-of select="$theValue * 0 + 1000000000000000000000000000000"/></xsl:when>
 					<xsl:when test="$theNewUnit = 'Å'"><xsl:value-of select="$theValue * 0 + 10000000000000000"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'li'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'in'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'ft'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'yd'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'mi'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'pt'"><xsl:value-of select="EQUALS"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'li'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'in'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'ft'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'yd'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'mi'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'pt'"><xsl:value-of select="$theValue"/></xsl:when>
 					<xsl:otherwise>
 						<xsl:message terminate="yes">OME-XSLT: units-conversion.xsl - ERROR - ConvertValueToUnit, cannot perform conversion, [<xsl:value-of select="$theCurrentUnit"/>] to [<xsl:value-of select="$theNewUnit"/>] is not supported.</xsl:message>
 					</xsl:otherwise>
@@ -1901,12 +1901,12 @@
 					<xsl:when test="$theNewUnit = 'zm'"><xsl:value-of select="$theValue * 0 + 1000000000000000000000000"/></xsl:when>
 					<xsl:when test="$theNewUnit = 'ym'"><xsl:value-of select="$theValue * 0 + 1000000000000000000000000000"/></xsl:when>
 					<xsl:when test="$theNewUnit = 'Å'"><xsl:value-of select="$theValue * 0 + 10000000000000"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'li'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'in'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'ft'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'yd'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'mi'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'pt'"><xsl:value-of select="EQUALS"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'li'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'in'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'ft'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'yd'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'mi'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'pt'"><xsl:value-of select="$theValue"/></xsl:when>
 					<xsl:otherwise>
 						<xsl:message terminate="yes">OME-XSLT: units-conversion.xsl - ERROR - ConvertValueToUnit, cannot perform conversion, [<xsl:value-of select="$theCurrentUnit"/>] to [<xsl:value-of select="$theNewUnit"/>] is not supported.</xsl:message>
 					</xsl:otherwise>
@@ -1943,12 +1943,12 @@
 					<xsl:when test="$theNewUnit = 'zm'"><xsl:value-of select="$theValue * 0 + 100000000000000000000000"/></xsl:when>
 					<xsl:when test="$theNewUnit = 'ym'"><xsl:value-of select="$theValue * 0 + 100000000000000000000000000"/></xsl:when>
 					<xsl:when test="$theNewUnit = 'Å'"><xsl:value-of select="$theValue * 0 + 1000000000000"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'li'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'in'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'ft'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'yd'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'mi'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'pt'"><xsl:value-of select="EQUALS"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'li'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'in'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'ft'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'yd'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'mi'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'pt'"><xsl:value-of select="$theValue"/></xsl:when>
 					<xsl:otherwise>
 						<xsl:message terminate="yes">OME-XSLT: units-conversion.xsl - ERROR - ConvertValueToUnit, cannot perform conversion, [<xsl:value-of select="$theCurrentUnit"/>] to [<xsl:value-of select="$theNewUnit"/>] is not supported.</xsl:message>
 					</xsl:otherwise>
@@ -1985,12 +1985,12 @@
 					<xsl:when test="$theNewUnit = 'zm'"><xsl:value-of select="$theValue * 0 + 10000000000000000000000"/></xsl:when>
 					<xsl:when test="$theNewUnit = 'ym'"><xsl:value-of select="$theValue * 0 + 10000000000000000000000000"/></xsl:when>
 					<xsl:when test="$theNewUnit = 'Å'"><xsl:value-of select="$theValue * 0 + 100000000000"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'li'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'in'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'ft'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'yd'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'mi'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'pt'"><xsl:value-of select="EQUALS"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'li'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'in'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'ft'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'yd'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'mi'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'pt'"><xsl:value-of select="$theValue"/></xsl:when>
 					<xsl:otherwise>
 						<xsl:message terminate="yes">OME-XSLT: units-conversion.xsl - ERROR - ConvertValueToUnit, cannot perform conversion, [<xsl:value-of select="$theCurrentUnit"/>] to [<xsl:value-of select="$theNewUnit"/>] is not supported.</xsl:message>
 					</xsl:otherwise>
@@ -2027,12 +2027,12 @@
 					<xsl:when test="$theNewUnit = 'zm'"><xsl:value-of select="$theValue * 0 + 1000000000000000000000"/></xsl:when>
 					<xsl:when test="$theNewUnit = 'ym'"><xsl:value-of select="$theValue * 0 + 1000000000000000000000000"/></xsl:when>
 					<xsl:when test="$theNewUnit = 'Å'"><xsl:value-of select="$theValue * 0 + 10000000000"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'li'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'in'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'ft'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'yd'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'mi'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'pt'"><xsl:value-of select="EQUALS"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'li'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'in'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'ft'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'yd'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'mi'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'pt'"><xsl:value-of select="$theValue"/></xsl:when>
 					<xsl:otherwise>
 						<xsl:message terminate="yes">OME-XSLT: units-conversion.xsl - ERROR - ConvertValueToUnit, cannot perform conversion, [<xsl:value-of select="$theCurrentUnit"/>] to [<xsl:value-of select="$theNewUnit"/>] is not supported.</xsl:message>
 					</xsl:otherwise>
@@ -2069,12 +2069,12 @@
 					<xsl:when test="$theNewUnit = 'zm'"><xsl:value-of select="$theValue * 0 + 100000000000000000000"/></xsl:when>
 					<xsl:when test="$theNewUnit = 'ym'"><xsl:value-of select="$theValue * 0 + 100000000000000000000000"/></xsl:when>
 					<xsl:when test="$theNewUnit = 'Å'"><xsl:value-of select="$theValue * 0 + 1000000000"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'li'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'in'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'ft'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'yd'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'mi'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'pt'"><xsl:value-of select="EQUALS"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'li'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'in'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'ft'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'yd'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'mi'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'pt'"><xsl:value-of select="$theValue"/></xsl:when>
 					<xsl:otherwise>
 						<xsl:message terminate="yes">OME-XSLT: units-conversion.xsl - ERROR - ConvertValueToUnit, cannot perform conversion, [<xsl:value-of select="$theCurrentUnit"/>] to [<xsl:value-of select="$theNewUnit"/>] is not supported.</xsl:message>
 					</xsl:otherwise>
@@ -2111,12 +2111,12 @@
 					<xsl:when test="$theNewUnit = 'zm'"><xsl:value-of select="$theValue * 0 + 10000000000000000000"/></xsl:when>
 					<xsl:when test="$theNewUnit = 'ym'"><xsl:value-of select="$theValue * 0 + 10000000000000000000000"/></xsl:when>
 					<xsl:when test="$theNewUnit = 'Å'"><xsl:value-of select="$theValue * 0 + 100000000"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'li'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'in'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'ft'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'yd'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'mi'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'pt'"><xsl:value-of select="EQUALS"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'li'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'in'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'ft'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'yd'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'mi'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'pt'"><xsl:value-of select="$theValue"/></xsl:when>
 					<xsl:otherwise>
 						<xsl:message terminate="yes">OME-XSLT: units-conversion.xsl - ERROR - ConvertValueToUnit, cannot perform conversion, [<xsl:value-of select="$theCurrentUnit"/>] to [<xsl:value-of select="$theNewUnit"/>] is not supported.</xsl:message>
 					</xsl:otherwise>
@@ -2153,12 +2153,12 @@
 					<xsl:when test="$theNewUnit = 'zm'"><xsl:value-of select="$theValue * 0 + 1000000000000000000"/></xsl:when>
 					<xsl:when test="$theNewUnit = 'ym'"><xsl:value-of select="$theValue * 0 + 1000000000000000000000"/></xsl:when>
 					<xsl:when test="$theNewUnit = 'Å'"><xsl:value-of select="$theValue * 0 + 10000000"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'li'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'in'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'ft'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'yd'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'mi'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'pt'"><xsl:value-of select="EQUALS"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'li'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'in'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'ft'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'yd'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'mi'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'pt'"><xsl:value-of select="$theValue"/></xsl:when>
 					<xsl:otherwise>
 						<xsl:message terminate="yes">OME-XSLT: units-conversion.xsl - ERROR - ConvertValueToUnit, cannot perform conversion, [<xsl:value-of select="$theCurrentUnit"/>] to [<xsl:value-of select="$theNewUnit"/>] is not supported.</xsl:message>
 					</xsl:otherwise>
@@ -2195,12 +2195,12 @@
 					<xsl:when test="$theNewUnit = 'zm'"><xsl:value-of select="$theValue * 0 + 1000000000000000"/></xsl:when>
 					<xsl:when test="$theNewUnit = 'ym'"><xsl:value-of select="$theValue * 0 + 1000000000000000000"/></xsl:when>
 					<xsl:when test="$theNewUnit = 'Å'"><xsl:value-of select="$theValue * 0 + 10000"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'li'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'in'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'ft'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'yd'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'mi'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'pt'"><xsl:value-of select="EQUALS"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'li'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'in'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'ft'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'yd'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'mi'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'pt'"><xsl:value-of select="$theValue"/></xsl:when>
 					<xsl:otherwise>
 						<xsl:message terminate="yes">OME-XSLT: units-conversion.xsl - ERROR - ConvertValueToUnit, cannot perform conversion, [<xsl:value-of select="$theCurrentUnit"/>] to [<xsl:value-of select="$theNewUnit"/>] is not supported.</xsl:message>
 					</xsl:otherwise>
@@ -2237,12 +2237,12 @@
 					<xsl:when test="$theNewUnit = 'zm'"><xsl:value-of select="$theValue * 0 + 1000000000000"/></xsl:when>
 					<xsl:when test="$theNewUnit = 'ym'"><xsl:value-of select="$theValue * 0 + 1000000000000000"/></xsl:when>
 					<xsl:when test="$theNewUnit = 'Å'"><xsl:value-of select="$theValue * 0 + 10"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'li'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'in'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'ft'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'yd'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'mi'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'pt'"><xsl:value-of select="EQUALS"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'li'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'in'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'ft'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'yd'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'mi'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'pt'"><xsl:value-of select="$theValue"/></xsl:when>
 					<xsl:otherwise>
 						<xsl:message terminate="yes">OME-XSLT: units-conversion.xsl - ERROR - ConvertValueToUnit, cannot perform conversion, [<xsl:value-of select="$theCurrentUnit"/>] to [<xsl:value-of select="$theNewUnit"/>] is not supported.</xsl:message>
 					</xsl:otherwise>
@@ -2279,12 +2279,12 @@
 					<xsl:when test="$theNewUnit = 'zm'"><xsl:value-of select="$theValue * 0 + 1000000000"/></xsl:when>
 					<xsl:when test="$theNewUnit = 'ym'"><xsl:value-of select="$theValue * 0 + 1000000000000"/></xsl:when>
 					<xsl:when test="$theNewUnit = 'Å'"><xsl:value-of select="$theValue * 0 + 0.01"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'li'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'in'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'ft'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'yd'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'mi'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'pt'"><xsl:value-of select="EQUALS"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'li'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'in'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'ft'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'yd'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'mi'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'pt'"><xsl:value-of select="$theValue"/></xsl:when>
 					<xsl:otherwise>
 						<xsl:message terminate="yes">OME-XSLT: units-conversion.xsl - ERROR - ConvertValueToUnit, cannot perform conversion, [<xsl:value-of select="$theCurrentUnit"/>] to [<xsl:value-of select="$theNewUnit"/>] is not supported.</xsl:message>
 					</xsl:otherwise>
@@ -2321,12 +2321,12 @@
 					<xsl:when test="$theNewUnit = 'zm'"><xsl:value-of select="$theValue * 0 + 1000000"/></xsl:when>
 					<xsl:when test="$theNewUnit = 'ym'"><xsl:value-of select="$theValue * 0 + 1000000000"/></xsl:when>
 					<xsl:when test="$theNewUnit = 'Å'"><xsl:value-of select="$theValue * 0 + 1e-05"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'li'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'in'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'ft'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'yd'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'mi'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'pt'"><xsl:value-of select="EQUALS"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'li'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'in'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'ft'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'yd'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'mi'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'pt'"><xsl:value-of select="$theValue"/></xsl:when>
 					<xsl:otherwise>
 						<xsl:message terminate="yes">OME-XSLT: units-conversion.xsl - ERROR - ConvertValueToUnit, cannot perform conversion, [<xsl:value-of select="$theCurrentUnit"/>] to [<xsl:value-of select="$theNewUnit"/>] is not supported.</xsl:message>
 					</xsl:otherwise>
@@ -2363,12 +2363,12 @@
 					<xsl:when test="$theNewUnit = 'zm'"><xsl:value-of select="$theValue * 0 + 1000"/></xsl:when>
 					<xsl:when test="$theNewUnit = 'ym'"><xsl:value-of select="$theValue * 0 + 1000000"/></xsl:when>
 					<xsl:when test="$theNewUnit = 'Å'"><xsl:value-of select="$theValue * 0 + 1e-08"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'li'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'in'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'ft'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'yd'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'mi'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'pt'"><xsl:value-of select="EQUALS"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'li'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'in'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'ft'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'yd'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'mi'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'pt'"><xsl:value-of select="$theValue"/></xsl:when>
 					<xsl:otherwise>
 						<xsl:message terminate="yes">OME-XSLT: units-conversion.xsl - ERROR - ConvertValueToUnit, cannot perform conversion, [<xsl:value-of select="$theCurrentUnit"/>] to [<xsl:value-of select="$theNewUnit"/>] is not supported.</xsl:message>
 					</xsl:otherwise>
@@ -2405,12 +2405,12 @@
 					<xsl:when test="$theNewUnit = 'am'"><xsl:value-of select="$theValue * 0 + 0.001"/></xsl:when>
 					<xsl:when test="$theNewUnit = 'ym'"><xsl:value-of select="$theValue * 0 + 1000"/></xsl:when>
 					<xsl:when test="$theNewUnit = 'Å'"><xsl:value-of select="$theValue * 0 + 1e-11"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'li'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'in'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'ft'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'yd'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'mi'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'pt'"><xsl:value-of select="EQUALS"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'li'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'in'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'ft'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'yd'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'mi'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'pt'"><xsl:value-of select="$theValue"/></xsl:when>
 					<xsl:otherwise>
 						<xsl:message terminate="yes">OME-XSLT: units-conversion.xsl - ERROR - ConvertValueToUnit, cannot perform conversion, [<xsl:value-of select="$theCurrentUnit"/>] to [<xsl:value-of select="$theNewUnit"/>] is not supported.</xsl:message>
 					</xsl:otherwise>
@@ -2447,12 +2447,12 @@
 					<xsl:when test="$theNewUnit = 'am'"><xsl:value-of select="$theValue * 0 + 1e-06"/></xsl:when>
 					<xsl:when test="$theNewUnit = 'zm'"><xsl:value-of select="$theValue * 0 + 0.001"/></xsl:when>
 					<xsl:when test="$theNewUnit = 'Å'"><xsl:value-of select="$theValue * 0 + 1e-14"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'li'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'in'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'ft'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'yd'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'mi'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'pt'"><xsl:value-of select="EQUALS"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'li'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'in'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'ft'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'yd'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'mi'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'pt'"><xsl:value-of select="$theValue"/></xsl:when>
 					<xsl:otherwise>
 						<xsl:message terminate="yes">OME-XSLT: units-conversion.xsl - ERROR - ConvertValueToUnit, cannot perform conversion, [<xsl:value-of select="$theCurrentUnit"/>] to [<xsl:value-of select="$theNewUnit"/>] is not supported.</xsl:message>
 					</xsl:otherwise>
@@ -2489,12 +2489,12 @@
 					<xsl:when test="$theNewUnit = 'am'"><xsl:value-of select="$theValue * 0 + 100000000"/></xsl:when>
 					<xsl:when test="$theNewUnit = 'zm'"><xsl:value-of select="$theValue * 0 + 100000000000"/></xsl:when>
 					<xsl:when test="$theNewUnit = 'ym'"><xsl:value-of select="$theValue * 0 + 100000000000000"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'li'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'in'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'ft'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'yd'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'mi'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'pt'"><xsl:value-of select="EQUALS"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'li'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'in'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'ft'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'yd'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'mi'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'pt'"><xsl:value-of select="$theValue"/></xsl:when>
 					<xsl:otherwise>
 						<xsl:message terminate="yes">OME-XSLT: units-conversion.xsl - ERROR - ConvertValueToUnit, cannot perform conversion, [<xsl:value-of select="$theCurrentUnit"/>] to [<xsl:value-of select="$theNewUnit"/>] is not supported.</xsl:message>
 					</xsl:otherwise>
@@ -2510,12 +2510,12 @@
 			</xsl:when>
 			<xsl:when test="$theCurrentUnit = 'ua'">
 				<xsl:choose>
-					<xsl:when test="$theNewUnit = 'li'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'in'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'ft'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'yd'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'mi'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'pt'"><xsl:value-of select="EQUALS"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'li'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'in'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'ft'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'yd'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'mi'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'pt'"><xsl:value-of select="$theValue"/></xsl:when>
 					<xsl:otherwise>
 						<xsl:message terminate="yes">OME-XSLT: units-conversion.xsl - ERROR - ConvertValueToUnit, cannot perform conversion, [<xsl:value-of select="$theCurrentUnit"/>] to [<xsl:value-of select="$theNewUnit"/>] is not supported.</xsl:message>
 					</xsl:otherwise>
@@ -2531,12 +2531,12 @@
 			</xsl:when>
 			<xsl:when test="$theCurrentUnit = 'ly'">
 				<xsl:choose>
-					<xsl:when test="$theNewUnit = 'li'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'in'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'ft'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'yd'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'mi'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'pt'"><xsl:value-of select="EQUALS"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'li'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'in'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'ft'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'yd'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'mi'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'pt'"><xsl:value-of select="$theValue"/></xsl:when>
 					<xsl:otherwise>
 						<xsl:message terminate="yes">OME-XSLT: units-conversion.xsl - ERROR - ConvertValueToUnit, cannot perform conversion, [<xsl:value-of select="$theCurrentUnit"/>] to [<xsl:value-of select="$theNewUnit"/>] is not supported.</xsl:message>
 					</xsl:otherwise>
@@ -2552,12 +2552,12 @@
 			</xsl:when>
 			<xsl:when test="$theCurrentUnit = 'pc'">
 				<xsl:choose>
-					<xsl:when test="$theNewUnit = 'li'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'in'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'ft'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'yd'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'mi'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'pt'"><xsl:value-of select="EQUALS"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'li'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'in'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'ft'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'yd'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'mi'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'pt'"><xsl:value-of select="$theValue"/></xsl:when>
 					<xsl:otherwise>
 						<xsl:message terminate="yes">OME-XSLT: units-conversion.xsl - ERROR - ConvertValueToUnit, cannot perform conversion, [<xsl:value-of select="$theCurrentUnit"/>] to [<xsl:value-of select="$theNewUnit"/>] is not supported.</xsl:message>
 					</xsl:otherwise>
@@ -2573,12 +2573,12 @@
 			</xsl:when>
 			<xsl:when test="$theCurrentUnit = 'thou'">
 				<xsl:choose>
-					<xsl:when test="$theNewUnit = 'li'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'in'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'ft'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'yd'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'mi'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'pt'"><xsl:value-of select="EQUALS"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'li'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'in'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'ft'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'yd'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'mi'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'pt'"><xsl:value-of select="$theValue"/></xsl:when>
 					<xsl:otherwise>
 						<xsl:message terminate="yes">OME-XSLT: units-conversion.xsl - ERROR - ConvertValueToUnit, cannot perform conversion, [<xsl:value-of select="$theCurrentUnit"/>] to [<xsl:value-of select="$theNewUnit"/>] is not supported.</xsl:message>
 					</xsl:otherwise>
@@ -2594,39 +2594,39 @@
 			</xsl:when>
 			<xsl:when test="$theCurrentUnit = 'li'">
 				<xsl:choose>
-					<xsl:when test="$theNewUnit = 'Ym'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'Zm'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'Em'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'Pm'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'Tm'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'Gm'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'Mm'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'km'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'hm'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'dam'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'm'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'dm'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'cm'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'mm'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'µm'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'nm'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'pm'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'fm'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'am'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'zm'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'ym'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'Å'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'ua'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'ly'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'pc'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'thou'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'in'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'ft'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'yd'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'mi'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'pt'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'pixel'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'reference frame'"><xsl:value-of select="EQUALS"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'Ym'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'Zm'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'Em'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'Pm'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'Tm'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'Gm'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'Mm'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'km'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'hm'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'dam'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'm'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'dm'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'cm'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'mm'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'µm'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'nm'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'pm'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'fm'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'am'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'zm'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'ym'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'Å'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'ua'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'ly'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'pc'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'thou'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'in'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'ft'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'yd'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'mi'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'pt'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'pixel'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'reference frame'"><xsl:value-of select="$theValue"/></xsl:when>
 					<xsl:otherwise>
 						<xsl:message terminate="yes">OME-XSLT: units-conversion.xsl - ERROR - ConvertValueToUnit, cannot perform conversion, [<xsl:value-of select="$theCurrentUnit"/>] to [<xsl:value-of select="$theNewUnit"/>] is not supported.</xsl:message>
 					</xsl:otherwise>
@@ -2642,39 +2642,39 @@
 			</xsl:when>
 			<xsl:when test="$theCurrentUnit = 'in'">
 				<xsl:choose>
-					<xsl:when test="$theNewUnit = 'Ym'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'Zm'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'Em'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'Pm'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'Tm'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'Gm'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'Mm'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'km'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'hm'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'dam'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'm'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'dm'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'cm'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'mm'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'µm'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'nm'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'pm'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'fm'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'am'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'zm'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'ym'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'Å'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'ua'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'ly'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'pc'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'thou'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'li'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'ft'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'yd'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'mi'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'pt'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'pixel'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'reference frame'"><xsl:value-of select="EQUALS"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'Ym'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'Zm'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'Em'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'Pm'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'Tm'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'Gm'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'Mm'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'km'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'hm'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'dam'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'm'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'dm'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'cm'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'mm'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'µm'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'nm'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'pm'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'fm'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'am'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'zm'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'ym'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'Å'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'ua'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'ly'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'pc'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'thou'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'li'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'ft'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'yd'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'mi'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'pt'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'pixel'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'reference frame'"><xsl:value-of select="$theValue"/></xsl:when>
 					<xsl:otherwise>
 						<xsl:message terminate="yes">OME-XSLT: units-conversion.xsl - ERROR - ConvertValueToUnit, cannot perform conversion, [<xsl:value-of select="$theCurrentUnit"/>] to [<xsl:value-of select="$theNewUnit"/>] is not supported.</xsl:message>
 					</xsl:otherwise>
@@ -2690,39 +2690,39 @@
 			</xsl:when>
 			<xsl:when test="$theCurrentUnit = 'ft'">
 				<xsl:choose>
-					<xsl:when test="$theNewUnit = 'Ym'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'Zm'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'Em'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'Pm'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'Tm'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'Gm'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'Mm'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'km'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'hm'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'dam'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'm'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'dm'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'cm'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'mm'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'µm'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'nm'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'pm'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'fm'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'am'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'zm'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'ym'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'Å'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'ua'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'ly'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'pc'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'thou'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'li'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'in'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'yd'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'mi'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'pt'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'pixel'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'reference frame'"><xsl:value-of select="EQUALS"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'Ym'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'Zm'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'Em'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'Pm'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'Tm'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'Gm'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'Mm'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'km'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'hm'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'dam'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'm'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'dm'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'cm'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'mm'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'µm'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'nm'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'pm'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'fm'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'am'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'zm'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'ym'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'Å'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'ua'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'ly'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'pc'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'thou'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'li'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'in'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'yd'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'mi'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'pt'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'pixel'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'reference frame'"><xsl:value-of select="$theValue"/></xsl:when>
 					<xsl:otherwise>
 						<xsl:message terminate="yes">OME-XSLT: units-conversion.xsl - ERROR - ConvertValueToUnit, cannot perform conversion, [<xsl:value-of select="$theCurrentUnit"/>] to [<xsl:value-of select="$theNewUnit"/>] is not supported.</xsl:message>
 					</xsl:otherwise>
@@ -2738,39 +2738,39 @@
 			</xsl:when>
 			<xsl:when test="$theCurrentUnit = 'yd'">
 				<xsl:choose>
-					<xsl:when test="$theNewUnit = 'Ym'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'Zm'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'Em'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'Pm'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'Tm'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'Gm'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'Mm'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'km'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'hm'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'dam'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'm'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'dm'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'cm'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'mm'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'µm'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'nm'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'pm'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'fm'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'am'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'zm'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'ym'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'Å'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'ua'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'ly'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'pc'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'thou'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'li'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'in'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'ft'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'mi'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'pt'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'pixel'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'reference frame'"><xsl:value-of select="EQUALS"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'Ym'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'Zm'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'Em'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'Pm'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'Tm'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'Gm'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'Mm'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'km'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'hm'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'dam'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'm'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'dm'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'cm'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'mm'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'µm'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'nm'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'pm'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'fm'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'am'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'zm'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'ym'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'Å'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'ua'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'ly'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'pc'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'thou'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'li'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'in'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'ft'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'mi'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'pt'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'pixel'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'reference frame'"><xsl:value-of select="$theValue"/></xsl:when>
 					<xsl:otherwise>
 						<xsl:message terminate="yes">OME-XSLT: units-conversion.xsl - ERROR - ConvertValueToUnit, cannot perform conversion, [<xsl:value-of select="$theCurrentUnit"/>] to [<xsl:value-of select="$theNewUnit"/>] is not supported.</xsl:message>
 					</xsl:otherwise>
@@ -2786,39 +2786,39 @@
 			</xsl:when>
 			<xsl:when test="$theCurrentUnit = 'mi'">
 				<xsl:choose>
-					<xsl:when test="$theNewUnit = 'Ym'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'Zm'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'Em'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'Pm'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'Tm'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'Gm'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'Mm'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'km'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'hm'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'dam'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'm'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'dm'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'cm'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'mm'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'µm'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'nm'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'pm'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'fm'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'am'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'zm'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'ym'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'Å'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'ua'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'ly'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'pc'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'thou'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'li'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'in'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'ft'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'yd'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'pt'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'pixel'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'reference frame'"><xsl:value-of select="EQUALS"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'Ym'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'Zm'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'Em'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'Pm'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'Tm'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'Gm'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'Mm'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'km'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'hm'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'dam'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'm'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'dm'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'cm'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'mm'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'µm'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'nm'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'pm'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'fm'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'am'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'zm'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'ym'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'Å'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'ua'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'ly'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'pc'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'thou'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'li'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'in'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'ft'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'yd'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'pt'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'pixel'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'reference frame'"><xsl:value-of select="$theValue"/></xsl:when>
 					<xsl:otherwise>
 						<xsl:message terminate="yes">OME-XSLT: units-conversion.xsl - ERROR - ConvertValueToUnit, cannot perform conversion, [<xsl:value-of select="$theCurrentUnit"/>] to [<xsl:value-of select="$theNewUnit"/>] is not supported.</xsl:message>
 					</xsl:otherwise>
@@ -2834,39 +2834,39 @@
 			</xsl:when>
 			<xsl:when test="$theCurrentUnit = 'pt'">
 				<xsl:choose>
-					<xsl:when test="$theNewUnit = 'Ym'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'Zm'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'Em'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'Pm'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'Tm'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'Gm'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'Mm'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'km'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'hm'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'dam'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'm'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'dm'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'cm'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'mm'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'µm'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'nm'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'pm'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'fm'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'am'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'zm'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'ym'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'Å'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'ua'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'ly'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'pc'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'thou'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'li'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'in'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'ft'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'yd'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'mi'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'pixel'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'reference frame'"><xsl:value-of select="EQUALS"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'Ym'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'Zm'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'Em'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'Pm'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'Tm'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'Gm'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'Mm'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'km'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'hm'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'dam'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'm'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'dm'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'cm'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'mm'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'µm'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'nm'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'pm'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'fm'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'am'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'zm'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'ym'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'Å'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'ua'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'ly'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'pc'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'thou'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'li'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'in'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'ft'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'yd'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'mi'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'pixel'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'reference frame'"><xsl:value-of select="$theValue"/></xsl:when>
 					<xsl:otherwise>
 						<xsl:message terminate="yes">OME-XSLT: units-conversion.xsl - ERROR - ConvertValueToUnit, cannot perform conversion, [<xsl:value-of select="$theCurrentUnit"/>] to [<xsl:value-of select="$theNewUnit"/>] is not supported.</xsl:message>
 					</xsl:otherwise>
@@ -2882,12 +2882,12 @@
 			</xsl:when>
 			<xsl:when test="$theCurrentUnit = 'pixel'">
 				<xsl:choose>
-					<xsl:when test="$theNewUnit = 'li'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'in'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'ft'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'yd'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'mi'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'pt'"><xsl:value-of select="EQUALS"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'li'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'in'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'ft'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'yd'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'mi'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'pt'"><xsl:value-of select="$theValue"/></xsl:when>
 					<xsl:otherwise>
 						<xsl:message terminate="yes">OME-XSLT: units-conversion.xsl - ERROR - ConvertValueToUnit, cannot perform conversion, [<xsl:value-of select="$theCurrentUnit"/>] to [<xsl:value-of select="$theNewUnit"/>] is not supported.</xsl:message>
 					</xsl:otherwise>
@@ -2903,12 +2903,12 @@
 			</xsl:when>
 			<xsl:when test="$theCurrentUnit = 'reference frame'">
 				<xsl:choose>
-					<xsl:when test="$theNewUnit = 'li'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'in'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'ft'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'yd'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'mi'"><xsl:value-of select="EQUALS"/></xsl:when>
-					<xsl:when test="$theNewUnit = 'pt'"><xsl:value-of select="EQUALS"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'li'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'in'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'ft'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'yd'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'mi'"><xsl:value-of select="$theValue"/></xsl:when>
+					<xsl:when test="$theNewUnit = 'pt'"><xsl:value-of select="$theValue"/></xsl:when>
 					<xsl:otherwise>
 						<xsl:message terminate="yes">OME-XSLT: units-conversion.xsl - ERROR - ConvertValueToUnit, cannot perform conversion, [<xsl:value-of select="$theCurrentUnit"/>] to [<xsl:value-of select="$theNewUnit"/>] is not supported.</xsl:message>
 					</xsl:otherwise>
