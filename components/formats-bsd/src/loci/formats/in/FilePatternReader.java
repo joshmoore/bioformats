@@ -49,6 +49,7 @@ import loci.formats.FormatException;
 import loci.formats.FormatReader;
 import loci.formats.IFormatReader;
 import loci.formats.ImageReader;
+import loci.formats.Memoizer;
 import loci.formats.Modulo;
 import loci.formats.meta.MetadataStore;
 
@@ -77,6 +78,7 @@ public class FilePatternReader extends FormatReader {
         newClasses.addClass(c);
       }
     }
+
     helper = new FileStitcher(new ImageReader(newClasses));
     helper.setMetadataOptions(getMetadataOptions());
 
@@ -497,12 +499,13 @@ public class FilePatternReader extends FormatReader {
   /* @see loci.formats.IFormatReader#reopenFile() */
   @Override
   public void reopenFile() throws IOException {
-    if (helper == null) {
-      helper = new FileStitcher(new ImageReader(newClasses));
-    }
-    else {
-      helper.close();
-    }
+
+    // TODO: possibly set to minimum
+    IFormatReader reader = new ImageReader(newClasses);
+    // memoize whatever files are opened internally if possible.
+    reader = Memoizer.wrap(getMetadataOptions(), reader);
+
+    helper = new FileStitcher(new ImageReader(newClasses));
     helper.setMetadataOptions(getMetadataOptions());
     helper.setUsingPatternIds(true);
     helper.setCanChangePattern(false);

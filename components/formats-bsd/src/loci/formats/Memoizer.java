@@ -534,6 +534,17 @@ public class Memoizer extends ReaderWrapper {
   }
 
   /**
+   * Any class which is going to inject itself into the MetadataOptions
+   * properties for use up or downstream will need to re-inject itself
+   * when a new value is passed through.
+   */
+  @Override
+  public void setMetadataOptions(MetadataOptions options) {
+    configure(options);
+    super.setMetadataOptions(options);
+  }
+
+  /**
    * If {@link MetadataOptions} have been configured per
    * {@link #configure(MetadataOptions)}, then wrap the given
    * {@link IFormatReader} with a {@link Memoizer} instance and return.
@@ -551,6 +562,9 @@ public class Memoizer extends ReaderWrapper {
     Object elapsed = options.getMetadataOption(k + ".minimumElapsed");
     Object inplace = options.getMetadataOption(k + ".inPlace");
     Object cachedir = options.getMetadataOption(k + ".cacheDirectory");
+    if (elapsed == null) {
+        elapsed = DEFAULT_MINIMUM_ELAPSED;
+    }
     if (!(elapsed instanceof Long)) {
         LOGGER.warn("config: minimumElapsed wrong type: {}", elapsed);
         return r;
@@ -717,6 +731,7 @@ public class Memoizer extends ReaderWrapper {
         // loadMemo has already called handleMetadataStore with non-null
         try {
           loadedFromMemo = true;
+          memo.setMetadataOptions(getMetadataOptions());
           reader = memo;
           reader.reopenFile();
         } catch (FileNotFoundException e) {
