@@ -48,6 +48,7 @@ import com.esotericsoftware.kryo.KryoException;
 import com.esotericsoftware.kryo.Registration;
 import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
+import com.google.common.io.CountingInputStream;
 
 /**
  * TODO
@@ -86,9 +87,7 @@ public class KryoDeser implements Deser {
 
   protected Output output;
 
-  protected InputStream fis;
-
-  protected OutputStream fos;
+  protected CountingInputStream cis;
 
   @Override
   public void close() {
@@ -103,7 +102,8 @@ public class KryoDeser implements Deser {
 
   @Override
   public void loadStart(InputStream is) {
-    input = new Input(is);
+    cis = new CountingInputStream(is);
+    input = new Input(cis);
   }
 
 
@@ -145,11 +145,15 @@ public class KryoDeser implements Deser {
   }
 
   @Override
-  public void loadStop() {
+  public long loadStop() {
     if (input != null) {
       input.close();
       input = null;
     }
+    if (cis == null) {
+      return -1L;
+    }
+    return cis.getCount();
   }
 
   @Override
