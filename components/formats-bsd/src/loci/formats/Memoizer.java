@@ -46,6 +46,7 @@ import loci.common.services.ServiceException;
 import loci.common.services.ServiceFactory;
 import loci.formats.in.MetadataLevel;
 import loci.formats.in.MetadataOptions;
+import loci.formats.memo.FileStorage;
 import loci.formats.meta.MetadataRetrieve;
 import loci.formats.meta.MetadataStore;
 import loci.formats.ome.OMEXMLMetadata;
@@ -82,6 +83,8 @@ import org.slf4j.LoggerFactory;
 public class Memoizer extends ReaderWrapper {
 
   /**
+   * Interface for conversion from {@link FormatReader} to a stream.
+   *
    * Methods should not throw implementation-specific exceptions (like
    * KryoException) and instead should wrap all such "(de-)serialization is
    * impossible"-style exceptions with an {@link InvalidFileException}.
@@ -98,7 +101,11 @@ public class Memoizer extends ReaderWrapper {
 
     IFormatReader loadReader() throws IOException, ClassNotFoundException;
 
-    void loadStop() throws IOException;
+    /**
+     * @return the number of bytes read.
+     * @throws IOException
+     */
+    long loadStop() throws IOException;
 
     void saveStart(OutputStream os) throws IOException;
 
@@ -128,6 +135,44 @@ public class Memoizer extends ReaderWrapper {
     public InvalidFileException(Throwable t) {
       super(t);
     }
+
+  }
+
+  /**
+   * Interface for persisting the streams created by {@link Deser} instances
+   * for later retrieval.
+   */
+  public interface Storage {
+
+      boolean isReady();
+
+      /**
+       * The caller is responsible for closing the stream as quickly as
+       * possible. However, at the latest when {@link #close()} is called,
+       * the streams will be closed.
+       *
+       * @return an {@link InputStream} ready for reading. Never null.
+       * @throws IOException
+       */
+      InputStream getInputStream() throws IOException;
+
+      void delete();
+
+      /**
+       * The caller is responsible for closing the stream as quickly as
+       * possible. However, at the latest when {@link #close()} is called,
+       * the streams will be closed.
+       *
+       * @return an {@link OutputStream} ready for writing. Never null.
+       * @throws IOException
+       */
+      OutputStream getOutputStream() throws IOException;
+
+      void close();
+
+      void commit();
+
+      void rollback();
 
   }
 
@@ -169,23 +214,21 @@ public class Memoizer extends ReaderWrapper {
    * non-null, then all memo files will be created under it. Can be
    * overriden by {@link #doInPlaceCaching}.
    */
-  private final File directory;
+  protected final File directory;
 
   /**
    * If {@code true}, then all memo files will be created in the same
    * directory as the original file.
    */
-  private boolean doInPlaceCaching = false;
+  protected boolean doInPlaceCaching = false;
 
   protected transient Deser ser;
 
+  protected transient Storage storage;
+
   private transient OMEXMLService service;
 
-  private Location realFile;
-
-  private File memoFile;
-
-  private File tempFile;
+  protected Location realFile;
 
   private boolean skipLoad = false;
 
@@ -220,13 +263,6 @@ public class Memoizer extends ReaderWrapper {
    * @see #handleMetadataStore(IFormatReader)
    */
   private MetadataStore userMetadataStore = null;
-
-  /**
-   * {@link MetadataStore} created internally.
-   *
-   * @see #handleMetadataStore(IFormatReader)
-   */
-  private MetadataStore replacementMetadataStore = null;
 
   // -- Constructors --
 
@@ -505,14 +541,22 @@ public class Memoizer extends ReaderWrapper {
 
   // -- ReaderWrapper API methods --
 
+  /**
+   * Primary driver of the {@link Memoizer} instance.
+   */
   @Override
   public void setId(String id) throws FormatException, IOException {
     StopWatch sw = stopWatch();
     try {
       realFile = new Location(id);
-      memoFile = getMemoFile(id);
+      if (storage != null) {
+        // Reload the storage on setId
+        storage.close();
+        storage = null;
+      }
+      Storage storage = getStorage();
 
-      if (memoFile == null) {
+      if (storage == null) {
         // Memoization disabled.
         if (userMetadataStore != null) {
           reader.setMetadataStore(userMetadataStore);
@@ -527,18 +571,8 @@ public class Memoizer extends ReaderWrapper {
       savedToMemo = false;
 
       if (memo != null) {
-        // loadMemo has already called handleMetadataStore with non-null
-        try {
           loadedFromMemo = true;
           reader = memo;
-          reader.reopenFile();
-        } catch (FileNotFoundException e) {
-          LOGGER.info("could not reopen file - deleting invalid memo file: {}", memoFile);
-          deleteQuietly(memoFile);
-          memo = null;
-          reader.close();
-          loadedFromMemo = false;
-        }
       }
 
       if (memo == null) {
@@ -589,30 +623,6 @@ public class Memoizer extends ReaderWrapper {
   //-- Helper methods --
 
   /**
-   * Attempts to delete an existing file, logging at
-   * warn if the deletion returns false or at error
-   * if an exception is thrown.
-   *
-   * @return the result from {@link java.io.File#delete} or {@code false} if
-   * an exception is thrown.
-   */
-  protected boolean deleteQuietly(File file) {
-    try {
-      if (file != null && file.exists()) {
-        if (file.delete()) {
-          LOGGER.trace("deleted {}", file);
-          return true;
-        } else {
-          LOGGER.warn("file deletion failed {}", file);
-        }
-      }
-    } catch (Throwable t) {
-      LOGGER.error("file deletion failed: {}", file, t);
-    }
-    return false;
-  }
-
-  /**
    * Returns a configured {@link KryoDeser} instance. This method can be modified
    * by consumers. The returned instance is not thread-safe.
    *
@@ -623,6 +633,19 @@ public class Memoizer extends ReaderWrapper {
       ser = new KryoDeser();
     }
     return ser;
+  }
+
+  /**
+   * Returns a configured {@link FileStorage} instance. This method can be
+   * modified by consumers. The returned instance is not thread-safe.
+   *
+   * @return a {@link FileStorage} instance. If null, memoization is disabled.
+   */
+  protected Storage getStorage() {
+    if (storage == null) {
+      storage = new FileStorage(realFile, directory, doInPlaceCaching);
+    }
+    return storage;
   }
 
   // Copied from OMETiffReader.
@@ -641,57 +664,7 @@ public class Memoizer extends ReaderWrapper {
       return new Slf4JStopWatch(LOGGER, Slf4JStopWatch.DEBUG_LEVEL);
   }
 
-  /**
-   * Constructs a {@link File} object from {@code id} string. This method
-   * can be modified by consumers, but then existing memo files will not be
-   * found.
-   *
-   * @param id the path passed to {@link #setId}
-   * @return a {@link File} object pointing at the location of the memo file
-   */
-  public File getMemoFile(String id) {
-    File f = null;
-    File writeDirectory = null;
-    if (directory == null && !doInPlaceCaching) {
-      // Disabling memoization unless specific directory is provided.
-      // This prevents random cache files from being unknowingly written.
-      LOGGER.debug("skipping memo: no directory given");
-      return null;
-    } else {
 
-      // If the memoizer directory is set to be the root folder, the memo file
-      // will be saved in the same folder as the file specified by id. Since
-      // the root folder will likely not be writeable by the user, we want to
-      // exclude this special case from the test below
-      id = new File(id).getAbsolutePath();
-      String rootPath = id.substring(0, id.indexOf(File.separator) + 1);
-
-      if (doInPlaceCaching || directory.getAbsolutePath().equals(rootPath)) {
-        f = new File(id);
-        writeDirectory = new File(f.getParent());
-      } else {
-        // this serves to strip off the drive letter on Windows
-        // since we're using the absolute path, 'id' will either start with
-        // File.separator (as on UNIX), or a drive letter (as on Windows)
-        id = id.substring(id.indexOf(File.separator) + 1);
-        f = new File(directory, id);
-        writeDirectory = directory;
-      }
-
-      // Check either the in-place folder or the main memoizer directory
-      // exists and is writeable
-      if (!writeDirectory.exists() || !writeDirectory.canWrite()) {
-        LOGGER.warn("skipping memo: directory not writeable - {}",
-          writeDirectory);
-        return null;
-      }
-
-      f.getParentFile().mkdirs();
-    }
-    String p = f.getParent();
-    String n = f.getName();
-    return new File(p, "." + n + ".bfmemo");
-  }
 
   /**
    * Load a memo file if possible, returning a null if not.
@@ -707,42 +680,36 @@ public class Memoizer extends ReaderWrapper {
       return null;
     }
 
-    if (!memoFile.exists()) {
-      LOGGER.trace("Memo file doesn't exist: {}", memoFile);
-      return null;
-    }
-
-    if(!memoFile.canRead()) {
-      LOGGER.trace("Can't read memo file: {}", memoFile);
-      return null;
-    }
-
-    long memoLast = memoFile.lastModified();
-    long realLast = realFile.lastModified();
-    if (memoLast < realLast) {
-      LOGGER.debug("memo(lastModified={}) older than real(lastModified={})",
-        memoLast, realLast);
-      return null;
-    }
-
     final Deser ser = getDeser();
+    final Storage storage = getStorage();
+
+    if (!storage.isReady()) {
+      LOGGER.trace("storage not ready");
+      return null;
+    }
+
     final StopWatch sw = stopWatch();
     IFormatReader copy = null;
-    FileInputStream fis = new FileInputStream(memoFile);
+    long bytesRead = -1L;
 
+    InputStream is = storage.getInputStream();
+
+    boolean fail = false;
     try {
-      ser.loadStart(fis);
+      ser.loadStart(is);
 
       // VERSION
       Integer version = ser.loadVersion();
       if (!VERSION.equals(version)) {
         LOGGER.info("Old version of memo file: {} not {}", version, VERSION);
+        storage.delete();
         return null;
       }
 
       // RELEASE VERSION NUMBER
        if (versionMismatch()) {
          // Logging done in versionMismatch
+         storage.delete();
          return null;
        }
 
@@ -751,6 +718,7 @@ public class Memoizer extends ReaderWrapper {
         copy = ser.loadReader();
       } catch (ClassNotFoundException e) {
         LOGGER.warn("unknown reader type: {}", e);
+        storage.delete();
         return null;
       }
 
@@ -772,38 +740,51 @@ public class Memoizer extends ReaderWrapper {
 
       copy = handleMetadataStore(copy);
       if (copy == null) {
-          LOGGER.debug("metadata store invalidated cache: {}", memoFile);
+        LOGGER.debug("metadata store invalidated cache: {}", storage);
+        fail = true;
+      } else {
+        fail = false;
+        copy.reopenFile();
+        return copy;
       }
 
-      // TODO:
-      // Check flags
-      // DataV1 class?
-      // Handle exceptions on read/write. possibly deleting.
-      LOGGER.debug("loaded memo file: {} ({} bytes)",
-        memoFile, memoFile.length());
-      return copy;
+    } catch (FileNotFoundException e) {
+      LOGGER.info("could not reopen file - deleting invalid memo file: {}", storage);
+      fail = true;
     } catch (InvalidFileException e) {
-      LOGGER.warn("deleting invalid memo file: {}", memoFile, e);
-      deleteQuietly(memoFile);
-      return null;
+      LOGGER.warn("deleting invalid memo file: {}", storage, e);
+      fail = true;
     } catch (ArrayIndexOutOfBoundsException e) {
-      LOGGER.warn("deleting invalid memo file: {}", memoFile, e);
-      deleteQuietly(memoFile);
-      return null;
+      LOGGER.warn("deleting invalid memo file: {}", storage, e);
+      fail = true;
     } catch (Throwable t) {
       // Logging at error since this is unexpected.
-      LOGGER.error("deleting invalid memo file: {}", memoFile, t);
-      deleteQuietly(memoFile);
-      return null;
+      LOGGER.error("deleting invalid memo file: {}", storage, t);
+      fail = true;
     } finally {
-      try {
-        fis.close();
-      } catch (Exception e) {
-        LOGGER.warn("error closing input stream", fis);
+
+      if (fail) {
+        if (copy != null) {
+          copy.close();
+        }
+        storage.delete();
       }
-      ser.loadStop();
+
+      try {
+        storage.close();
+      } catch (Exception e) {
+        LOGGER.warn("error closing storage: {}", storage, e);
+      }
+
+      bytesRead = ser.loadStop();
       sw.stop("loci.formats.Memoizer.loadMemo");
+      LOGGER.debug("loaded memo file: {} ({} bytes)",
+        storage, bytesRead);
     }
+
+    // Only reached in a fail state
+    return null;
+
   }
 
   /**
@@ -817,18 +798,14 @@ public class Memoizer extends ReaderWrapper {
     }
 
     final Deser ser = getDeser();
+    final Storage storage = getStorage();
     final StopWatch sw = stopWatch();
     boolean rv = true;
-    FileOutputStream fos = null;
 
+    OutputStream os = null;
     try {
-      // Create temporary location for output
-      // Note: can't rename tempfile until resources are closed.
-      tempFile = File.createTempFile(
-        memoFile.getName(), "", memoFile.getParentFile());
-
-      fos = new FileOutputStream(tempFile);
-      ser.saveStart(fos);
+      os = storage.getOutputStream();
+      ser.saveStart(os);
 
       // Save to temporary location.
       ser.saveVersion(VERSION);
@@ -836,18 +813,19 @@ public class Memoizer extends ReaderWrapper {
       ser.saveRevision(FormatTools.VCS_REVISION);
       ser.saveReader(reader);
       ser.saveStop();
-      LOGGER.debug("saved to temp file: {}", tempFile);
 
     } catch (Throwable t) {
-
       // Any exception should be ignored, and false returned.
-      LOGGER.warn(String.format("failed to save memo file: %s", memoFile), t);
+      LOGGER.warn("failed to save memo file: {}", storage, t);
+      storage.rollback();
       rv = false;
 
     } finally {
 
       try {
-        fos.close();
+        if (os != null) {
+          os.close();
+        }
       } catch (Exception e) {
         LOGGER.warn("failed to close FileOutputStream", e);
       }
@@ -860,20 +838,9 @@ public class Memoizer extends ReaderWrapper {
         LOGGER.warn("output close failed", t);
       }
 
-      // Rename temporary file if successful.
-      // Any failures will have to be ignored.
-      // Note: renaming the tempfile with open
-      // resources can lead to segfaults
       if (rv) {
-        if (!tempFile.renameTo(memoFile)) {
-          LOGGER.error("temp file rename returned false: {}", tempFile);
-        } else {
-          LOGGER.debug("saved memo file: {} ({} bytes)",
-            memoFile, memoFile.length());
-        }
+        storage.commit();
       }
-
-      deleteQuietly(tempFile);
     }
     return rv;
   }
@@ -963,8 +930,9 @@ public class Memoizer extends ReaderWrapper {
 
   private static void load(String id, File tmp, boolean delete) throws Exception {
     Memoizer m = new Memoizer(0L, tmp);
+    FileStorage s = (FileStorage) m.getStorage(); // Assuming default
 
-    File memo = m.getMemoFile(id);
+    File memo = s.getMemoFile(id);
     if (delete && memo != null && memo.exists()) {
         System.out.println("Deleting " + memo);
         memo.delete();
