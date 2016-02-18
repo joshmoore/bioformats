@@ -54,118 +54,19 @@ import org.testng.annotations.Test;
  * which is most likely to occur by third-party users and also most matches
  * the {@link loci.formats.memo.FileStorage} scenario.
  */
-public class MapdbMemoizerTest {
+public class MapdbMemoizerTest extends AbstractMemoizerTest<MapdbStorage> {
 
-  private static final String TEST_FILE =
-    "test&pixelType=int8&sizeX=20&sizeY=20&sizeC=1&sizeZ=1&sizeT=1.fake";
-
-  private File idDir;
-
-  private String id;
-
-  private FakeReader reader;
-
-  private Memoizer memoizer;
-
-  private MapdbStorage dbStorage;
-
-  @BeforeMethod
-  public void setUp() throws Exception {
-    // No mapping.
-    // Location.mapId(TEST_FILE, TEST_FILE);
-    reader = new FakeReader();
-    try {
-      String uuid = UUID.randomUUID().toString();
-      idDir = new File(System.getProperty("java.io.tmpdir"), uuid);
-      idDir.mkdirs();
-      File tempFile = new File(idDir, TEST_FILE);
-      tempFile.createNewFile();
-      id = tempFile.getAbsolutePath();
-      reader.setId(id);
-    } finally {
-      reader.close();
-    }
-    reader = new FakeReader(); // No setId !
-  }
-
-  @AfterMethod
-  public void tearDown() throws Exception {
-    if (memoizer != null) {
-      memoizer.close();
-    }
-    if (reader != null) {
-      reader.close();
-    }
-  }
-
-  Storage mk(Storage storage, String id, File directory, boolean doInPlaceCaching) {
-    if (storage != null) {
-      return storage;
-    }
-    dbStorage = new MapdbStorage(new Location(id), directory, doInPlaceCaching);
-    return dbStorage;
-  }
-
-  void ctor() {
-    memoizer = new Memoizer() {
-      { storage = getStorage(); }
-      public Storage getStorage() {
-        return mk(storage, id, directory, doInPlaceCaching);
-      }
-    };
-  }
-
-  void ctor0() {
-    memoizer = new Memoizer(0) {
-      { storage = getStorage(); }
-      public Storage getStorage() {
-        return mk(storage, id, directory, doInPlaceCaching);
-      }
-    };
-  }
-
-  void ctor0(File directory) {
-    memoizer = new Memoizer(0, directory) {
-      { storage = getStorage(); }
-      public Storage getStorage() {
-        return mk(storage, id, directory, doInPlaceCaching);
-      }
-    };
-  }
-
-  void ctorReader() {
-    memoizer = new Memoizer(reader) {
-      { storage = getStorage(); }
-      public Storage getStorage() {
-        return mk(storage, id, directory, doInPlaceCaching);
-      }
-    };
-  }
-
-  void ctorReader0() {
-    memoizer = new Memoizer(reader, 0) {
-      { storage = getStorage(); }
-      public Storage getStorage() {
-        return mk(storage, id, directory, doInPlaceCaching);
-      }
-    };
-  }
-
-  void ctorReader0(File directory) {
-    memoizer = new Memoizer(reader, 0, directory) {
-      { storage = getStorage(); }
-      public Storage getStorage() {
-        return mk(storage, id, directory, doInPlaceCaching);
-      }
-    };
+  @Override
+  MapdbStorage mk(String id, File directory, boolean doInPlaceCaching) {
+    return new MapdbStorage(new Location(id), directory, doInPlaceCaching);
   }
 
   void assertKey() {
-    assertTrue(dbStorage.containsKey(new Location(id).getAbsolutePath()));
+    assertTrue(myStorage.containsKey(new Location(id).getAbsolutePath()));
   }
 
   void assertNoKey() {
-    assertFalse(dbStorage.containsKey(new Location(id).getAbsolutePath()));
+    assertFalse(myStorage.containsKey(new Location(id).getAbsolutePath()));
   }
 
   @Test
@@ -231,13 +132,13 @@ public class MapdbMemoizerTest {
 
     // Check non-existing memo directory returns null
     assertNoKey();
-    assertFalse(dbStorage.isReady());
+    assertFalse(myStorage.isReady());
 
     // Create memoizer directory and memoizer reader
     directory.mkdirs();
 
     ctor0(directory);
-    assertTrue(dbStorage.isReady());
+    assertTrue(myStorage.isReady());
 
     // Test multiple setId invocations
     memoizer.setId(id);
@@ -256,7 +157,7 @@ public class MapdbMemoizerTest {
     ctor0(null);
 
     // Check null memo directory returns null
-    assertFalse(dbStorage.isReady());
+    assertFalse(myStorage.isReady());
 
     // Test setId invocation
     memoizer.setId(id);
@@ -274,13 +175,13 @@ public class MapdbMemoizerTest {
     ctorReader0(directory);
 
     // Check non-existing memo directory returns null
-    assertFalse(dbStorage.isReady());
+    assertFalse(myStorage.isReady());
 
     // Create memoizer directory and memoizer reader
     directory.mkdirs();
 
     ctor0(directory);
-    assertTrue(dbStorage.isReady());
+    assertTrue(myStorage.isReady());
 
     // Test multiple setId invocations
     memoizer.setId(id);
@@ -300,7 +201,7 @@ public class MapdbMemoizerTest {
     ctorReader0(null);
 
     // Check null memo directory returns null
-    assertFalse(dbStorage.isReady());
+    assertFalse(myStorage.isReady());
 
     // Test setId invocation
     memoizer.setId(id);
@@ -316,7 +217,7 @@ public class MapdbMemoizerTest {
       ctorReader0(directory);
 
       // Check non-existing memo directory returns null
-      assertFalse(dbStorage.isReady());
+      assertFalse(myStorage.isReady());
 
       // Create memoizer directory and memoizer reader
       directory.mkdirs();
@@ -326,14 +227,14 @@ public class MapdbMemoizerTest {
         // File.setWritable() does not work properly on Windows
         directory.setWritable(false);
         ctorReader0(directory);
-        assertFalse(dbStorage.isReady());
+        assertFalse(myStorage.isReady());
         memoizer.close();
       }
 
       // Check existing writeable memo diretory returns a memo file
       directory.setWritable(true);
       ctorReader0(directory);
-      assertTrue(dbStorage.isReady());
+      assertTrue(myStorage.isReady());
   }
 
   @Test
@@ -345,13 +246,13 @@ public class MapdbMemoizerTest {
         // File.setWritable() does not work properly on Windows
         idDir.setWritable(false);
         ctorReader0(new File(rootPath));
-        assertFalse(dbStorage.isReady());
+        assertFalse(myStorage.isReady());
       }
 
       // Check writeable file directory returns memo file beside file
       idDir.setWritable(true);
       ctorReader0(new File(rootPath));
-      assertTrue(dbStorage.isReady());
+      assertTrue(myStorage.isReady());
   }
 
   @Test
@@ -362,12 +263,12 @@ public class MapdbMemoizerTest {
       // File.setWritable() does not work properly on Windows
       idDir.setWritable(false);
       ctorReader();
-      assertFalse(dbStorage.isReady());
+      assertFalse(myStorage.isReady());
     }
     // Check writeable file directory returns memo file beside file
     idDir.setWritable(true);
     ctorReader();
-    assertTrue(dbStorage.isReady());
+    assertTrue(myStorage.isReady());
   }
 
   @Test
@@ -402,4 +303,5 @@ public class MapdbMemoizerTest {
       t.tearDown();
     }
   }
+
 }

@@ -40,136 +40,23 @@ import java.io.File;
 import java.util.UUID;
 
 import loci.common.Location;
-import loci.formats.FormatTools;
-import loci.formats.Memoizer;
-import loci.formats.in.FakeReader;
 import loci.formats.memo.FileStorage;
 
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 /**
  */
-public class MemoizerTest {
+public class MemoizerTest extends AbstractMemoizerTest<FileStorage> {
 
-  private static final String TEST_FILE =
-    "test&pixelType=int8&sizeX=20&sizeY=20&sizeC=1&sizeZ=1&sizeT=1.fake";
-
-  private File idDir;
-
-  private String id;
-
-  private FakeReader reader;
-
-  private Memoizer memoizer;
-
-  private FileStorage fileStorage;
-
-  private static int fullPlaneCallIndex;
-
-  private int sizeX;
-
-  private int sizeY;
-
-  private int bpp;
-
-  private int planeSize;
-
-  @BeforeMethod
-  public void setUp() throws Exception {
-    fullPlaneCallIndex = 1;
-    // No mapping.
-    // Location.mapId(TEST_FILE, TEST_FILE);
-    reader = new FakeReader();
-    try {
-      String uuid = UUID.randomUUID().toString();
-      idDir = new File(System.getProperty("java.io.tmpdir"), uuid);
-      idDir.mkdirs();
-      File tempFile = new File(idDir, TEST_FILE);
-      tempFile.createNewFile();
-      id = tempFile.getAbsolutePath();
-      reader.setId(id);
-      sizeX = reader.getSizeX();
-      sizeY = reader.getSizeY();
-      bpp = FormatTools.getBytesPerPixel(reader.getPixelType());
-      planeSize = sizeY * sizeY * bpp;
-    } finally {
-      reader.close();
-    }
-    reader = new FakeReader(); // No setId !
-  }
-
-  @AfterMethod
-  public void tearDown() throws Exception {
-    memoizer.close();
-    reader.close();
-  }
-
-  void ctor() {
-    memoizer = new Memoizer() {
-      { getStorage(); }
-      public Storage getStorage() {
-        fileStorage = new FileStorage(new Location(id), directory, doInPlaceCaching);
-        return fileStorage;
-      }
-    };
-  }
-
-  void ctor0() {
-    memoizer = new Memoizer(0) {
-      { getStorage(); }
-      public Storage getStorage() {
-        fileStorage = new FileStorage(new Location(id), directory, doInPlaceCaching);
-        return fileStorage;
-      }
-    };
-  }
-
-  void ctor0(File directory) {
-    memoizer = new Memoizer(0, directory) {
-      { getStorage(); }
-      public Storage getStorage() {
-        fileStorage = new FileStorage(new Location(id), directory, doInPlaceCaching);
-        return fileStorage;
-      }
-    };
-  }
-
-  void ctorReader() {
-    memoizer = new Memoizer(reader) {
-      { getStorage(); }
-      public Storage getStorage() {
-        fileStorage = new FileStorage(new Location(id), directory, doInPlaceCaching);
-        return fileStorage;
-      }
-    };
-  }
-
-  void ctorReader0() {
-    memoizer = new Memoizer(reader, 0) {
-      { getStorage(); }
-      public Storage getStorage() {
-        fileStorage = new FileStorage(new Location(id), directory, doInPlaceCaching);
-        return fileStorage;
-      }
-    };
-  }
-
-  void ctorReader0(File directory) {
-    memoizer = new Memoizer(reader, 0, directory) {
-      { getStorage(); }
-      public Storage getStorage() {
-        fileStorage = new FileStorage(new Location(id), directory, doInPlaceCaching);
-        return fileStorage;
-      }
-    };
+  @Override
+  FileStorage mk(String id, File directory, boolean doInPlaceCaching) {
+    return new FileStorage(new Location(id), directory, doInPlaceCaching);
   }
 
   @Test
   public void testSimple() throws Exception {
     ctorReader();
-    File f = fileStorage.getMemoFile(id);
+    File f = myStorage.getMemoFile(id);
     if (f != null && f.exists()) {
       f.delete();
     }
@@ -184,7 +71,7 @@ public class MemoizerTest {
 
   public void testDefaultConstructor() throws Exception {
     ctor();
-    File f = fileStorage.getMemoFile(id);
+    File f = myStorage.getMemoFile(id);
     File memoFile = new File(idDir, "." + TEST_FILE + ".bfmemo");
     assertEquals(f.getAbsolutePath(), memoFile.getAbsolutePath());
   }
@@ -192,7 +79,7 @@ public class MemoizerTest {
   @Test
   public void testConstructorTimeElapsed() throws Exception {
     ctor0();
-    File f = fileStorage.getMemoFile(id);
+    File f = myStorage.getMemoFile(id);
     File memoFile = new File(idDir, "." + TEST_FILE + ".bfmemo");
     assertEquals(f.getAbsolutePath(), memoFile.getAbsolutePath());
 
@@ -210,7 +97,7 @@ public class MemoizerTest {
   @Test
   public void testConstructorReader() throws Exception {
     ctorReader();
-    File f = fileStorage.getMemoFile(id);
+    File f = myStorage.getMemoFile(id);
     File memoFile = new File(idDir, "." + TEST_FILE + ".bfmemo");
     assertEquals(f.getAbsolutePath(), memoFile.getAbsolutePath());
   }
@@ -218,7 +105,7 @@ public class MemoizerTest {
   @Test
   public void testConstructorReaderTimeElapsed() throws Exception {
     ctorReader0();
-    File f = fileStorage.getMemoFile(id);
+    File f = myStorage.getMemoFile(id);
     File memoFile = new File(idDir, "." + TEST_FILE + ".bfmemo");
     assertEquals(f.getAbsolutePath(), memoFile.getAbsolutePath());
 
@@ -241,7 +128,7 @@ public class MemoizerTest {
     ctor0(directory);
 
     // Check non-existing memo directory returns null
-    assertEquals(fileStorage.getMemoFile(id), null);
+    assertEquals(myStorage.getMemoFile(id), null);
 
     // Create memoizer directory and memoizer reader
     directory.mkdirs();
@@ -250,7 +137,7 @@ public class MemoizerTest {
     memoDir = memoDir.substring(memoDir.indexOf(File.separator) + 1);
     File memoFile = new File(directory, memoDir);
     memoFile = new File(memoFile, "." + TEST_FILE + ".bfmemo");
-    File f = fileStorage.getMemoFile(id);
+    File f = myStorage.getMemoFile(id);
     assertEquals(f.getAbsolutePath(), memoFile.getAbsolutePath());
 
     // Test multiple setId invocations
@@ -270,7 +157,7 @@ public class MemoizerTest {
     ctor0(null);
 
     // Check null memo directory returns null
-    assertEquals(fileStorage.getMemoFile(id), null);
+    assertEquals(myStorage.getMemoFile(id), null);
 
     // Test setId invocation
     memoizer.setId(id);
@@ -288,7 +175,7 @@ public class MemoizerTest {
     ctorReader0(directory);
 
     // Check non-existing memo directory returns null
-    assertEquals(fileStorage.getMemoFile(id), null);
+    assertEquals(myStorage.getMemoFile(id), null);
 
     // Create memoizer directory and memoizer reader
     directory.mkdirs();
@@ -297,7 +184,7 @@ public class MemoizerTest {
     memoDir = memoDir.substring(memoDir.indexOf(File.separator) + 1);
     File memoFile = new File(directory, memoDir);
     memoFile = new File(memoFile, "." + TEST_FILE + ".bfmemo");
-    File f = fileStorage.getMemoFile(id);
+    File f = myStorage.getMemoFile(id);
     assertEquals(f.getAbsolutePath(), memoFile.getAbsolutePath());
 
     // Test multiple setId invocations
@@ -318,7 +205,7 @@ public class MemoizerTest {
     ctorReader0(null);
 
     // Check null memo directory returns null
-    assertEquals(fileStorage.getMemoFile(id), null);
+    assertEquals(myStorage.getMemoFile(id), null);
 
     // Test setId invocation
     memoizer.setId(id);
@@ -334,7 +221,7 @@ public class MemoizerTest {
       ctorReader0(directory);
 
       // Check non-existing memo directory returns null
-      assertEquals(fileStorage.getMemoFile(id), null);
+      assertEquals(myStorage.getMemoFile(id), null);
 
       // Create memoizer directory and memoizer reader
       directory.mkdirs();
@@ -344,7 +231,7 @@ public class MemoizerTest {
       if (File.separator.equals("/")) {
         // File.setWritable() does not work properly on Windows
         directory.setWritable(false);
-        assertEquals(fileStorage.getMemoFile(id), null);
+        assertEquals(myStorage.getMemoFile(id), null);
       }
 
       // Check existing writeable memo diretory returns a memo file
@@ -353,7 +240,7 @@ public class MemoizerTest {
       memoDir = memoDir.substring(memoDir.indexOf(File.separator) + 1);
       File memoFile = new File(directory, memoDir);
       memoFile = new File(memoFile, "." + TEST_FILE + ".bfmemo");
-      assertEquals(fileStorage.getMemoFile(id).getAbsolutePath(),
+      assertEquals(myStorage.getMemoFile(id).getAbsolutePath(),
                    memoFile.getAbsolutePath());
   }
 
@@ -366,13 +253,13 @@ public class MemoizerTest {
       if (File.separator.equals("/")) {
         // File.setWritable() does not work properly on Windows
         idDir.setWritable(false);
-        assertEquals(fileStorage.getMemoFile(id), null);
+        assertEquals(myStorage.getMemoFile(id), null);
       }
 
       // Check writeable file directory returns memo file beside file
       idDir.setWritable(true);
       File memoFile = new File(idDir, "." + TEST_FILE + ".bfmemo");
-      assertEquals(fileStorage.getMemoFile(id).getAbsolutePath(),
+      assertEquals(myStorage.getMemoFile(id).getAbsolutePath(),
         memoFile.getAbsolutePath());
   }
 
@@ -384,12 +271,12 @@ public class MemoizerTest {
     if (File.separator.equals("/")) {
       // File.setWritable() does not work properly on Windows
       idDir.setWritable(false);
-      assertEquals(fileStorage.getMemoFile(id), null);
+      assertEquals(myStorage.getMemoFile(id), null);
     }
     // Check writeable file directory returns memo file beside file
     idDir.setWritable(true);
     File memoFile = new File(idDir, "." + TEST_FILE + ".bfmemo");
-    assertEquals(fileStorage.getMemoFile(id).getAbsolutePath(),
+    assertEquals(myStorage.getMemoFile(id).getAbsolutePath(),
       memoFile.getAbsolutePath());
   }
 
@@ -425,4 +312,5 @@ public class MemoizerTest {
       t.tearDown();
     }
   }
+
 }
