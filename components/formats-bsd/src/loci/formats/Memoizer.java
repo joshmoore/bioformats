@@ -53,8 +53,6 @@ import org.perf4j.slf4j.Slf4JStopWatch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.esotericsoftware.kryo.KryoException;
-
 /**
  * {@link ReaderWrapper} implementation which caches the state of the
  * delegate (including and other {@link ReaderWrapper} instances)
@@ -79,6 +77,11 @@ import com.esotericsoftware.kryo.KryoException;
  */
 public class Memoizer extends ReaderWrapper {
 
+  /**
+   * Methods should not throw implementation-specific exceptions (like
+   * KryoException) and instead should wrap all such "(de-)serialization is
+   * impossible"-style exceptions with an {@link InvalidFileException}.
+   */
   public interface Deser {
 
     void loadStart(File memoFile) throws IOException;
@@ -106,6 +109,22 @@ public class Memoizer extends ReaderWrapper {
     void saveStop() throws IOException;
 
     void close();
+
+  }
+
+  /**
+   * Class thrown by {@link Deser} implementations to signal that the given
+   * memo file is no longer usable. This could be caused by corruption, changes
+   * in the underlying library version, changes in the classpath, or similar.
+   */
+  public static class InvalidFileException extends RuntimeException {
+
+    private static final long serialVersionUID = 1L;
+
+    public InvalidFileException(Throwable t) {
+      super(t);
+    }
+
   }
 
   @Deprecated
@@ -498,7 +517,7 @@ public class Memoizer extends ReaderWrapper {
         return;
       }
 
-      IFormatReader memo = loadMemo(); // Should never throw kryo exceptions
+      IFormatReader memo = loadMemo(); // Should never throw implementation exceptions
 
       loadedFromMemo = false;
       savedToMemo = false;
@@ -757,7 +776,7 @@ public class Memoizer extends ReaderWrapper {
       LOGGER.debug("loaded memo file: {} ({} bytes)",
         memoFile, memoFile.length());
       return copy;
-    } catch (KryoException e) {
+    } catch (InvalidFileException e) {
       LOGGER.warn("deleting invalid memo file: {}", memoFile, e);
       deleteQuietly(memoFile);
       return null;
