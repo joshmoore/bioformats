@@ -32,8 +32,6 @@
 
 package loci.formats.memo;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
@@ -45,7 +43,6 @@ import org.objenesis.strategy.StdInstantiatorStrategy;
 
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.KryoException;
-import com.esotericsoftware.kryo.Registration;
 import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
 import com.google.common.io.CountingInputStream;
@@ -56,23 +53,7 @@ import com.google.common.io.CountingInputStream;
 public class KryoDeser implements Deser {
 
   @Deprecated
-  final public Kryo kryo = new Kryo() {
-
-      int count = 0;
-
-      @Override
-      public Registration getRegistration(Class k) {
-          Registration rv = this.getClassResolver().getRegistration(k);
-          if (rv == null) {
-              rv = new Registration(k, getDefaultSerializer(k), count++);
-              System.out.println("REGISTRATION: " + k + " --> " + count);
-              this.register(rv);
-          }
-          return rv;
-      }
-
-  };
-
+  final public Kryo kryo = new Kryo();
   {
     // See https://github.com/EsotericSoftware/kryo/issues/216
     ((Kryo.DefaultInstantiatorStrategy) kryo.getInstantiatorStrategy())
