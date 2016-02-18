@@ -112,6 +112,7 @@
       <groups/>
       <classes>
         <class name="loci.formats.utests.MemoizerTest"/>
+        <class name="loci.formats.utests.MapdbMemoizerTest"/>
       </classes>
     </test>
 </suite>
