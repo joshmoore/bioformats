@@ -52,7 +52,7 @@ import com.esotericsoftware.kryo.io.Output;
 /**
  * TODO
  */
-public abstract class AbstractKryoDeser implements Deser {
+public class KryoDeser implements Deser {
 
   @Deprecated
   final public Kryo kryo = new Kryo() {
@@ -86,6 +86,10 @@ public abstract class AbstractKryoDeser implements Deser {
 
   protected Output output;
 
+  protected InputStream fis;
+
+  protected OutputStream fos;
+
   @Override
   public void close() {
     try {
@@ -97,7 +101,11 @@ public abstract class AbstractKryoDeser implements Deser {
     }
   }
 
-  public abstract void loadStart(InputStream is);
+  @Override
+  public void loadStart(InputStream is) {
+    input = new Input(is);
+  }
+
 
   @Override
   public Integer loadVersion() {
@@ -136,9 +144,18 @@ public abstract class AbstractKryoDeser implements Deser {
     }
   }
 
-  public abstract void loadStop();
+  @Override
+  public void loadStop() {
+    if (input != null) {
+      input.close();
+      input = null;
+    }
+  }
 
-  public abstract void saveStart(OutputStream os);
+  @Override
+  public void saveStart(OutputStream os) {
+    output = new Output(os);
+  }
 
   @Override
   public void saveVersion(Integer version) {
@@ -177,6 +194,11 @@ public abstract class AbstractKryoDeser implements Deser {
     }
   }
 
-  public abstract void saveStop();
-
+  @Override
+  public void saveStop() {
+    if (output != null) {
+      output.close();
+      output = null;
+    }
+  }
 }
