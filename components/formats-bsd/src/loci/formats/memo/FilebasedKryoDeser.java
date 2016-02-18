@@ -32,21 +32,12 @@
 
 package loci.formats.memo;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 
-import loci.formats.IFormatReader;
-import loci.formats.Memoizer.Deser;
-
-import org.objenesis.strategy.StdInstantiatorStrategy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.esotericsoftware.kryo.Kryo;
-import com.esotericsoftware.kryo.Registration;
 import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
 
@@ -60,13 +51,12 @@ public class FilebasedKryoDeser extends AbstractKryoDeser {
    */
   private static final Logger LOGGER = LoggerFactory.getLogger(FilebasedKryoDeser.class);
 
-  FileInputStream fis;
-  FileOutputStream fos;
+  InputStream fis;
+  OutputStream fos;
 
   @Override
-  public void loadStart(File memoFile) throws FileNotFoundException {
-    fis = new FileInputStream(memoFile);
-    input = new Input(fis);
+  public void loadStart(InputStream is) {
+    input = new Input(is);
   }
 
   @Override
@@ -75,20 +65,11 @@ public class FilebasedKryoDeser extends AbstractKryoDeser {
       input.close();
       input = null;
     }
-    if (fis != null) {
-      try {
-        fis.close();
-      } catch (IOException e) {
-        LOGGER.error("failed to close KryoDeser.fis", e);
-      }
-      fis = null;
-    }
   }
 
   @Override
-  public void saveStart(File tempFile) throws FileNotFoundException {
-    fos = new FileOutputStream(tempFile);
-    output = new Output(fos);
+  public void saveStart(OutputStream os) {
+    output = new Output(os);
   }
 
   @Override
@@ -96,14 +77,6 @@ public class FilebasedKryoDeser extends AbstractKryoDeser {
     if (output != null) {
       output.close();
       output = null;
-    }
-    if (fos != null) {
-      try {
-        fos.close();
-        fos = null;
-      } catch (IOException e) {
-        LOGGER.error("failed to close KryoDeser.fis", e);
-      }
     }
   }
 
