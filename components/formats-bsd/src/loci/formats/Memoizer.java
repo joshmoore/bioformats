@@ -170,7 +170,7 @@ public class Memoizer extends ReaderWrapper {
 
       void close();
 
-      void commit();
+      void commit() throws IOException;
 
       void rollback();
 
@@ -519,6 +519,10 @@ public class Memoizer extends ReaderWrapper {
       ser.close();
       ser = null;
     }
+    if (storage != null) {
+      storage.close();
+      storage = null;
+    }
   }
 
   @Override
@@ -554,9 +558,9 @@ public class Memoizer extends ReaderWrapper {
         storage.close();
         storage = null;
       }
-      Storage storage = getStorage();
+      storage = getStorage();
 
-      if (storage == null) {
+      if (storage == null || !storage.isReady()) {
         // Memoization disabled.
         if (userMetadataStore != null) {
           reader.setMetadataStore(userMetadataStore);
@@ -693,6 +697,10 @@ public class Memoizer extends ReaderWrapper {
     long bytesRead = -1L;
 
     InputStream is = storage.getInputStream();
+    if (is == null) {
+      LOGGER.trace("no input stream");
+      return null;
+    }
 
     boolean fail = false;
     try {
@@ -770,12 +778,6 @@ public class Memoizer extends ReaderWrapper {
         storage.delete();
       }
 
-      try {
-        storage.close();
-      } catch (Exception e) {
-        LOGGER.warn("error closing storage: {}", storage, e);
-      }
-
       bytesRead = ser.loadStop();
       sw.stop("loci.formats.Memoizer.loadMemo");
       LOGGER.debug("loaded memo file: {} ({} bytes)",
@@ -839,7 +841,14 @@ public class Memoizer extends ReaderWrapper {
       }
 
       if (rv) {
-        storage.commit();
+        try {
+          storage.commit();
+        } catch (Exception e) {
+          LOGGER.error("commit on storage failed: {}", storage, e);
+          storage.rollback();
+          storage.close();
+          rv = false;
+        }
       }
     }
     return rv;

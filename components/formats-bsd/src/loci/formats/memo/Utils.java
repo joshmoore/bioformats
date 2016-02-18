@@ -64,4 +64,15 @@ class Utils {
     return false;
   }
 
+  /**
+   * If the memoizer directory is set to be the root folder, the memo file
+   * will be saved in the same folder as the file specified by id. Since
+   * the root folder will likely not be writeable by the user, we want to
+   * exclude this special case from the test below
+   */
+  static boolean isRootDirectory(File directory, String id) {
+    id = new File(id).getAbsolutePath();
+    String rootPath = id.substring(0, id.indexOf(File.separator) + 1);
+    return directory.getAbsolutePath().equals(rootPath);
+  }
 }
