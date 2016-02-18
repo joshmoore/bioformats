@@ -110,7 +110,7 @@ public class Memoizer extends ReaderWrapper {
   }
 
   @Deprecated
-  public static class KryoDeser extends loci.formats.memo.KryoDeser { }
+  public static class KryoDeser extends loci.formats.memo.FilebasedKryoDeser { }
 
   // -- Constants --
 
