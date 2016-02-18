@@ -34,11 +34,16 @@ package loci.formats.memo;
 
 import java.io.File;
 
+import org.mapdb.DB;
+import org.mapdb.DBMaker;
+import org.mapdb.HTreeMap;
+import org.mapdb.Serializer;
 import org.slf4j.Logger;
 
 /**
+ * public to allow subclassing for unit tests
  */
-class Utils {
+public class Utils {
 
   /**
    * Attempts to delete an existing file, logging at
@@ -48,7 +53,7 @@ class Utils {
    * @return the result from {@link java.io.File#delete} or {@code false} if
    * an exception is thrown.
    */
-  static boolean deleteQuietly(Logger LOGGER, File file) {
+  protected static boolean deleteQuietly(Logger LOGGER, File file) {
     try {
       if (file != null && file.exists()) {
         if (file.delete()) {
@@ -70,9 +75,43 @@ class Utils {
    * the root folder will likely not be writeable by the user, we want to
    * exclude this special case from the test below
    */
-  static boolean isRootDirectory(File directory, String id) {
+  protected static boolean isRootDirectory(File directory, String id) {
     id = new File(id).getAbsolutePath();
     String rootPath = id.substring(0, id.indexOf(File.separator) + 1);
     return directory.getAbsolutePath().equals(rootPath);
   }
+
+  protected static DB memoDB(File writeDirectory) {
+    return DBMaker.fileDB(new File(writeDirectory, "bfmemo.db"))
+      .transactionDisable()
+      .allocateStartSize(  5 * 1024*1024*1024) // 5 GB
+      .allocateIncrement(  1 * 1024*1024*1024) // 1 GB
+      .closeOnJvmShutdown()
+      .make();
+  }
+
+  protected static DB lockDB() {
+    return DBMaker.memoryDB()
+      .transactionDisable()
+      //.cacheWeakRefEnable()
+      //.cacheExecutorEnable()
+      .make();
+  }
+
+  protected static HTreeMap<String, byte[]> memoTree(DB db) {
+    return db
+      .hashMapCreate("memos")
+      .keySerializer(Serializer.STRING)
+      .valueSerializer(Serializer.BYTE_ARRAY)
+      .makeOrGet();
+  }
+
+  protected static HTreeMap<String, String> lockTree(DB db) {
+    return db
+      .hashMapCreate("locks")
+      .keySerializer(Serializer.STRING)
+      .valueSerializer(Serializer.STRING)
+      .makeOrGet();
+  }
+
 }

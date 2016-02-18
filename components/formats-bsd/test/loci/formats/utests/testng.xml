@@ -113,6 +113,7 @@
       <classes>
         <class name="loci.formats.utests.MemoizerTest"/>
         <class name="loci.formats.utests.MapdbMemoizerTest"/>
+        <class name="loci.formats.utests.MapdbSharedMemoizerTest"/>
       </classes>
     </test>
 </suite>

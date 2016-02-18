@@ -47,9 +47,7 @@ import loci.common.Location;
 import loci.formats.Memoizer.Storage;
 
 import org.mapdb.DB;
-import org.mapdb.DBMaker;
 import org.mapdb.HTreeMap;
-import org.mapdb.Serializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -83,6 +81,13 @@ public class MapdbStorage implements Storage {
 
   // -- Constructors --
 
+  public MapdbStorage(Location realFile, HTreeMap<String, byte[]> memos,
+      HTreeMap<String, String> writeLocks) {
+    this.key = realFile.getAbsolutePath();
+    this.memos = memos;
+    this.writeLocks = writeLocks;
+  }
+
   public MapdbStorage(Location realFile, File directory, boolean doInPlaceCaching) {
     this.key = realFile.getAbsolutePath();
     if (directory == null && !doInPlaceCaching) {
@@ -99,17 +104,8 @@ public class MapdbStorage implements Storage {
 
       final DB[] dbs = new DB[2];
       try {
-        dbs[0] = DBMaker.fileDB(new File(writeDirectory, "bfmemo.db"))
-          .transactionDisable()
-          .allocateStartSize(  5 * 1024*1024*1024) // 5 GB
-          .allocateIncrement(  1 * 1024*1024*1024) // 1 GB
-          .closeOnJvmShutdown()
-          .make();
-        dbs[1] = DBMaker.memoryDB()
-          .transactionDisable()
-          //.cacheWeakRefEnable()
-          //.cacheExecutorEnable()
-          .make();
+        dbs[0] = Utils.memoDB(writeDirectory);
+        dbs[1] = Utils.lockDB();
       } catch (Exception e) {
         LOGGER.error("failed to initialize db: {}", writeDirectory, e);
         memos = null;
@@ -117,16 +113,8 @@ public class MapdbStorage implements Storage {
         return;
       }
 
-      memos = dbs[0]
-        .hashMapCreate("memos")
-        .keySerializer(Serializer.STRING)
-        .valueSerializer(Serializer.BYTE_ARRAY)
-        .makeOrGet();
-      writeLocks = dbs[1]
-        .hashMapCreate("locks")
-        .keySerializer(Serializer.STRING)
-        .valueSerializer(Serializer.STRING)
-        .makeOrGet();
+      memos = Utils.memoTree(dbs[0]);
+      writeLocks = Utils.lockTree(dbs[1]);
 
       cleanup = new Runnable() {
         @Override
