@@ -33,15 +33,10 @@
 package loci.formats;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 
-import loci.common.Constants;
 import loci.common.Location;
-import loci.common.RandomAccessInputStream;
-import loci.common.RandomAccessOutputStream;
 import loci.common.services.DependencyException;
 import loci.common.services.ServiceException;
 import loci.common.services.ServiceFactory;
@@ -53,7 +48,6 @@ import loci.formats.ome.OMEXMLMetadata;
 import loci.formats.services.OMEXMLService;
 import loci.formats.services.OMEXMLServiceImpl;
 
-import org.objenesis.strategy.StdInstantiatorStrategy;
 import org.perf4j.StopWatch;
 import org.perf4j.slf4j.Slf4JStopWatch;
 import org.slf4j.Logger;
@@ -61,9 +55,6 @@ import org.slf4j.LoggerFactory;
 
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.KryoException;
-import com.esotericsoftware.kryo.Registration;
-import com.esotericsoftware.kryo.io.Input;
-import com.esotericsoftware.kryo.io.Output;
 
 /**
  * {@link ReaderWrapper} implementation which caches the state of the
@@ -118,135 +109,8 @@ public class Memoizer extends ReaderWrapper {
     void close();
   }
 
-
-  public static class KryoDeser implements Deser {
-
-    final public Kryo kryo = new Kryo() {
-
-        int count = 0;
-
-        @Override
-        public Registration getRegistration(Class k) {
-            Registration rv = this.getClassResolver().getRegistration(k);
-            if (rv == null) {
-                rv = new Registration(k, getDefaultSerializer(k), count++);
-                System.out.println("REGISTRATION: " + k + " --> " + count);
-                this.register(rv);
-            }
-            return rv;
-        }
-
-    };
-
-    {
-      // See https://github.com/EsotericSoftware/kryo/issues/216
-      ((Kryo.DefaultInstantiatorStrategy) kryo.getInstantiatorStrategy())
-          .setFallbackInstantiatorStrategy(new StdInstantiatorStrategy());
-      // The goal here is to eventually turn this on, but for the moment,
-      // the getRegistration method will auto-register, so required=true
-      // would have no effect.
-      // kryo.setRegistrationRequired(true);
-    }
-
-    FileInputStream fis;
-    FileOutputStream fos;
-    Input input;
-    Output output;
-
-    @Override
-    public void close() {
-      loadStop();
-      saveStop();
-      kryo.reset();
-    }
-
-    @Override
-    public void loadStart(File memoFile) throws FileNotFoundException {
-        fis = new FileInputStream(memoFile);
-        input = new Input(fis);
-    }
-
-    @Override
-    public Integer loadVersion() {
-        return kryo.readObject(input, Integer.class);
-    }
-
-    @Override
-    public String loadReleaseVersion() {
-        return kryo.readObject(input, String.class);
-    }
-
-    @Override
-    public String loadRevision() {
-        return kryo.readObject(input, String.class);
-    }
-
-    @Override
-    public IFormatReader loadReader() {
-        Class<?> c = kryo.readObject(input, Class.class);
-        return (IFormatReader) kryo.readObject(input, c);
-    }
-
-    @Override
-    public void loadStop() {
-      if (input != null) {
-        input.close();
-        input = null;
-      }
-      if (fis != null) {
-        try {
-          fis.close();
-        } catch (IOException e) {
-          LOGGER.error("failed to close KryoDeser.fis", e);
-        }
-        fis = null;
-      }
-    }
-
-    @Override
-    public void saveStart(File tempFile) throws FileNotFoundException {
-      fos = new FileOutputStream(tempFile);
-      output = new Output(fos);
-    }
-
-    @Override
-    public void saveVersion(Integer version) {
-      kryo.writeObject(output, version);
-    }
-
-    @Override
-    public void saveReleaseVersion(String version) {
-      kryo.writeObject(output, version);
-    }
-
-    @Override
-    public void saveRevision(String revision) {
-      kryo.writeObject(output, revision);
-    }
-
-    @Override
-    public void saveReader(IFormatReader reader) {
-      kryo.writeObject(output, reader.getClass());
-      kryo.writeObject(output, reader);
-    }
-
-    @Override
-    public void saveStop() {
-      if (output != null) {
-        output.close();
-        output = null;
-      }
-      if (fos != null) {
-        try {
-          fos.close();
-          fos = null;
-        } catch (IOException e) {
-          LOGGER.error("failed to close KryoDeser.fis", e);
-        }
-      }
-    }
-
-  }
+  @Deprecated
+  public static class KryoDeser extends loci.formats.memo.KryoDeser { }
 
   // -- Constants --
 
