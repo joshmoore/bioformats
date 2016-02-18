@@ -37,10 +37,12 @@ import java.io.FileNotFoundException;
 
 import loci.formats.IFormatReader;
 import loci.formats.Memoizer.Deser;
+import loci.formats.Memoizer.InvalidFileException;
 
 import org.objenesis.strategy.StdInstantiatorStrategy;
 
 import com.esotericsoftware.kryo.Kryo;
+import com.esotericsoftware.kryo.KryoException;
 import com.esotericsoftware.kryo.Registration;
 import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
@@ -84,32 +86,52 @@ public abstract class AbstractKryoDeser implements Deser {
 
   @Override
   public void close() {
-    loadStop();
-    saveStop();
-    kryo.reset();
+    try {
+      loadStop();
+      saveStop();
+      kryo.reset();
+    } catch (KryoException ke) {
+      throw new InvalidFileException(ke);
+    }
   }
 
   public abstract void loadStart(File memoFile) throws FileNotFoundException;
 
   @Override
   public Integer loadVersion() {
-    return kryo.readObject(input, Integer.class);
+    try {
+      return kryo.readObject(input, Integer.class);
+    } catch (KryoException ke) {
+      throw new InvalidFileException(ke);
+    }
   }
 
   @Override
   public String loadReleaseVersion() {
-    return kryo.readObject(input, String.class);
+    try {
+      return kryo.readObject(input, String.class);
+    } catch (KryoException ke) {
+      throw new InvalidFileException(ke);
+    }
   }
 
   @Override
   public String loadRevision() {
-    return kryo.readObject(input, String.class);
+    try {
+      return kryo.readObject(input, String.class);
+    } catch (KryoException ke) {
+      throw new InvalidFileException(ke);
+    }
   }
 
   @Override
   public IFormatReader loadReader() {
-    Class<?> c = kryo.readObject(input, Class.class);
-    return (IFormatReader) kryo.readObject(input, c);
+    try {
+      Class<?> c = kryo.readObject(input, Class.class);
+      return (IFormatReader) kryo.readObject(input, c);
+    } catch (KryoException ke) {
+      throw new InvalidFileException(ke);
+    }
   }
 
   public abstract void loadStop();
@@ -118,23 +140,39 @@ public abstract class AbstractKryoDeser implements Deser {
 
   @Override
   public void saveVersion(Integer version) {
-    kryo.writeObject(output, version);
+    try {
+      kryo.writeObject(output, version);
+    } catch (KryoException ke) {
+      throw new InvalidFileException(ke);
+    }
   }
 
   @Override
   public void saveReleaseVersion(String version) {
-    kryo.writeObject(output, version);
+    try {
+      kryo.writeObject(output, version);
+    } catch (KryoException ke) {
+      throw new InvalidFileException(ke);
+    }
   }
 
   @Override
   public void saveRevision(String revision) {
-    kryo.writeObject(output, revision);
+    try {
+      kryo.writeObject(output, revision);
+    } catch (KryoException ke) {
+      throw new InvalidFileException(ke);
+    }
   }
 
   @Override
   public void saveReader(IFormatReader reader) {
-    kryo.writeObject(output, reader.getClass());
-    kryo.writeObject(output, reader);
+    try {
+      kryo.writeObject(output, reader.getClass());
+      kryo.writeObject(output, reader);
+    } catch (KryoException ke) {
+      throw new InvalidFileException(ke);
+    }
   }
 
   public abstract void saveStop();
