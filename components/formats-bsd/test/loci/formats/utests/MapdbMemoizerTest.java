@@ -132,13 +132,13 @@ public class MapdbMemoizerTest extends AbstractMemoizerTest<MapdbStorage> {
 
     // Check non-existing memo directory returns null
     assertNoKey();
-    assertFalse(myStorage.isReady());
+    assertFalse(myStorage.readReady() || myStorage.writeReady());
 
     // Create memoizer directory and memoizer reader
     directory.mkdirs();
 
     ctor0(directory);
-    assertTrue(myStorage.isReady());
+    assertTrue(myStorage.readReady() && myStorage.writeReady());
 
     // Test multiple setId invocations
     memoizer.setId(id);
@@ -157,7 +157,7 @@ public class MapdbMemoizerTest extends AbstractMemoizerTest<MapdbStorage> {
     ctor0(null);
 
     // Check null memo directory returns null
-    assertFalse(myStorage.isReady());
+    assertFalse(myStorage.readReady() || myStorage.writeReady());
 
     // Test setId invocation
     memoizer.setId(id);
@@ -175,13 +175,13 @@ public class MapdbMemoizerTest extends AbstractMemoizerTest<MapdbStorage> {
     ctorReader0(directory);
 
     // Check non-existing memo directory returns null
-    assertFalse(myStorage.isReady());
+    assertFalse(myStorage.readReady() || myStorage.writeReady());
 
     // Create memoizer directory and memoizer reader
     directory.mkdirs();
 
     ctor0(directory);
-    assertTrue(myStorage.isReady());
+    assertTrue(myStorage.readReady() && myStorage.writeReady());
 
     // Test multiple setId invocations
     memoizer.setId(id);
@@ -201,7 +201,7 @@ public class MapdbMemoizerTest extends AbstractMemoizerTest<MapdbStorage> {
     ctorReader0(null);
 
     // Check null memo directory returns null
-    assertFalse(myStorage.isReady());
+    assertFalse(myStorage.readReady() || myStorage.writeReady());
 
     // Test setId invocation
     memoizer.setId(id);
@@ -212,29 +212,29 @@ public class MapdbMemoizerTest extends AbstractMemoizerTest<MapdbStorage> {
 
   @Test
   public void testGetMemoFilePermissionsDirectory() throws Exception {
-      String uuid = UUID.randomUUID().toString();
-      File directory = new File(System.getProperty("java.io.tmpdir"), uuid);
+    String uuid = UUID.randomUUID().toString();
+    File directory = new File(System.getProperty("java.io.tmpdir"), uuid);
+    ctorReader0(directory);
+
+    // Check non-existing memo directory returns null
+    assertFalse(myStorage.readReady() || myStorage.writeReady());
+
+    // Create memoizer directory and memoizer reader
+    directory.mkdirs();
+
+    // Check existing non-writeable memo directory returns null
+    if (File.separator.equals("/")) {
+      // File.setWritable() does not work properly on Windows
+      directory.setWritable(false);
       ctorReader0(directory);
+      assertFalse(myStorage.readReady() || myStorage.writeReady());
+      memoizer.close();
+    }
 
-      // Check non-existing memo directory returns null
-      assertFalse(myStorage.isReady());
-
-      // Create memoizer directory and memoizer reader
-      directory.mkdirs();
-
-      // Check existing non-writeable memo directory returns null
-      if (File.separator.equals("/")) {
-        // File.setWritable() does not work properly on Windows
-        directory.setWritable(false);
-        ctorReader0(directory);
-        assertFalse(myStorage.isReady());
-        memoizer.close();
-      }
-
-      // Check existing writeable memo diretory returns a memo file
-      directory.setWritable(true);
-      ctorReader0(directory);
-      assertTrue(myStorage.isReady());
+    // Check existing writeable memo diretory returns a memo file
+    directory.setWritable(true);
+    ctorReader0(directory);
+    assertTrue(myStorage.readReady() && myStorage.writeReady());
   }
 
   @Test
@@ -246,13 +246,13 @@ public class MapdbMemoizerTest extends AbstractMemoizerTest<MapdbStorage> {
         // File.setWritable() does not work properly on Windows
         idDir.setWritable(false);
         ctorReader0(new File(rootPath));
-        assertFalse(myStorage.isReady());
+        assertFalse(myStorage.readReady() || myStorage.writeReady());
       }
 
       // Check writeable file directory returns memo file beside file
       idDir.setWritable(true);
       ctorReader0(new File(rootPath));
-      assertTrue(myStorage.isReady());
+      assertTrue(myStorage.readReady() && myStorage.writeReady());
   }
 
   @Test
@@ -263,12 +263,12 @@ public class MapdbMemoizerTest extends AbstractMemoizerTest<MapdbStorage> {
       // File.setWritable() does not work properly on Windows
       idDir.setWritable(false);
       ctorReader();
-      assertFalse(myStorage.isReady());
+      assertFalse(myStorage.readReady() || myStorage.writeReady());
     }
     // Check writeable file directory returns memo file beside file
     idDir.setWritable(true);
     ctorReader();
-    assertTrue(myStorage.isReady());
+    assertTrue(myStorage.readReady() && myStorage.writeReady());
   }
 
   @Test

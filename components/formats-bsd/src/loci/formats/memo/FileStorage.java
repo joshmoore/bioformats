@@ -82,7 +82,7 @@ public class FileStorage implements Storage {
 
   // -- Interface methods --
 
-  public boolean isReady() {
+  public boolean readReady() {
 
     if (memoFile == null || !memoFile.exists()) {
       LOGGER.trace("Memo file doesn't exist: {}", memoFile);
@@ -102,6 +102,16 @@ public class FileStorage implements Storage {
       return false;
     }
 
+    return true;
+  }
+
+  public boolean writeReady() {
+    if (memoFile == null || !memoFile.getParentFile().canWrite()) {
+      // Checking if the directory is writable since a file must exist
+      // to be tested for writability
+      LOGGER.debug("not write ready: {}", memoFile);
+      return false;
+    }
     return true;
   }
 

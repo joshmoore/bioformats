@@ -144,35 +144,45 @@ public class Memoizer extends ReaderWrapper {
    */
   public interface Storage {
 
-      boolean isReady();
+    /**
+     * Whether or not the underlying storage mechanism can be read. Usually
+     * not being ready to read will imply that {@link #writeReady()} will also
+     * return false, though that is not gauranteed.
+     */
+    boolean readReady();
 
-      /**
-       * The caller is responsible for closing the stream as quickly as
-       * possible. However, at the latest when {@link #close()} is called,
-       * the streams will be closed.
-       *
-       * @return an {@link InputStream} ready for reading. Never null.
-       * @throws IOException
-       */
-      InputStream getInputStream() throws IOException;
+    /**
+     * Whether or not the underlying storage mechanism can be written to.
+     */
+    boolean writeReady();
 
-      void delete();
+    /**
+     * The caller is responsible for closing the stream as quickly as
+     * possible. However, at the latest when {@link #close()} is called,
+     * the streams will be closed.
+     *
+     * @return an {@link InputStream} ready for reading. Never null.
+     * @throws IOException
+     */
+    InputStream getInputStream() throws IOException;
 
-      /**
-       * The caller is responsible for closing the stream as quickly as
-       * possible. However, at the latest when {@link #close()} is called,
-       * the streams will be closed.
-       *
-       * @return an {@link OutputStream} ready for writing. Never null.
-       * @throws IOException
-       */
-      OutputStream getOutputStream() throws IOException;
+    void delete();
 
-      void close();
+    /**
+     * The caller is responsible for closing the stream as quickly as
+     * possible. However, at the latest when {@link #close()} is called,
+     * the streams will be closed.
+     *
+     * @return an {@link OutputStream} ready for writing. Never null.
+     * @throws IOException
+     */
+    OutputStream getOutputStream() throws IOException;
 
-      void commit() throws IOException;
+    void close();
 
-      void rollback();
+    void commit() throws IOException;
+
+    void rollback();
 
   }
 
@@ -560,7 +570,7 @@ public class Memoizer extends ReaderWrapper {
       }
       storage = getStorage();
 
-      if (storage == null || !storage.isReady()) {
+      if (storage == null) {
         // Memoization disabled.
         if (userMetadataStore != null) {
           reader.setMetadataStore(userMetadataStore);
@@ -687,7 +697,7 @@ public class Memoizer extends ReaderWrapper {
     final Deser ser = getDeser();
     final Storage storage = getStorage();
 
-    if (!storage.isReady()) {
+    if (!storage.readReady()) {
       LOGGER.trace("storage not ready");
       return null;
     }
@@ -796,6 +806,11 @@ public class Memoizer extends ReaderWrapper {
 
     if (skipSave) {
       LOGGER.trace("skip memo");
+      return false;
+    }
+
+    if (!storage.writeReady()) {
+      LOGGER.trace("storage not write ready");
       return false;
     }
 
