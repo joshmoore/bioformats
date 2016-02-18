@@ -128,10 +128,10 @@ public class ClassList<T> {
         c = cast(rawClass);
       }
       catch (ClassNotFoundException exc) {
-        LOGGER.debug("Could not find {}", line, exc);
+        LOGGER.debug("Could not find {}", line);
       }
       catch (NoClassDefFoundError err) {
-        LOGGER.debug("Could not find {}", line, err);
+        LOGGER.debug("Could not find {}", line);
       }
       catch (ExceptionInInitializerError err) {
         LOGGER.debug("Failed to create an instance of {}", line, err);

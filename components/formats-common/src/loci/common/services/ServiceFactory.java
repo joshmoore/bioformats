@@ -121,7 +121,7 @@ public class ServiceFactory {
           Class.forName(interfaceName, false, loader);
       }
       catch (Throwable t) {
-        LOGGER.debug("CLASSPATH missing interface: {}", interfaceName, t);
+        LOGGER.debug("CLASSPATH missing interface: {}", interfaceName);
         continue;
       }
       try {
