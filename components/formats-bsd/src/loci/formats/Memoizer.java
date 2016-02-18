@@ -53,7 +53,6 @@ import org.perf4j.slf4j.Slf4JStopWatch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.KryoException;
 
 /**
@@ -591,10 +590,10 @@ public class Memoizer extends ReaderWrapper {
   }
 
   /**
-   * Returns a configured {@link Kryo} instance. This method can be modified
+   * Returns a configured {@link KryoDeser} instance. This method can be modified
    * by consumers. The returned instance is not thread-safe.
    *
-   * @return a non-null {@link Kryo} instance.
+   * @return a non-null {@link KryoDeser} instance.
    */
   protected Deser getDeser() {
     if (ser == null) {
