@@ -34,6 +34,8 @@ package loci.formats.memo;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 import loci.formats.IFormatReader;
 import loci.formats.Memoizer.Deser;
@@ -95,7 +97,7 @@ public abstract class AbstractKryoDeser implements Deser {
     }
   }
 
-  public abstract void loadStart(File memoFile) throws FileNotFoundException;
+  public abstract void loadStart(InputStream is);
 
   @Override
   public Integer loadVersion() {
@@ -136,7 +138,7 @@ public abstract class AbstractKryoDeser implements Deser {
 
   public abstract void loadStop();
 
-  public abstract void saveStart(File tempFile) throws FileNotFoundException;
+  public abstract void saveStart(OutputStream os);
 
   @Override
   public void saveVersion(Integer version) {

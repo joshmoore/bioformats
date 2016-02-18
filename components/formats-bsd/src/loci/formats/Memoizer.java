@@ -33,8 +33,12 @@
 package loci.formats;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 import loci.common.Location;
 import loci.common.services.DependencyException;
@@ -84,7 +88,7 @@ public class Memoizer extends ReaderWrapper {
    */
   public interface Deser {
 
-    void loadStart(File memoFile) throws IOException;
+    void loadStart(InputStream is) throws IOException;
 
     Integer loadVersion() throws IOException;
 
@@ -96,7 +100,7 @@ public class Memoizer extends ReaderWrapper {
 
     void loadStop() throws IOException;
 
-    void saveStart(File tempFile) throws IOException;
+    void saveStart(OutputStream os) throws IOException;
 
     void saveVersion(Integer version) throws IOException;
 
@@ -724,8 +728,10 @@ public class Memoizer extends ReaderWrapper {
     final Deser ser = getDeser();
     final StopWatch sw = stopWatch();
     IFormatReader copy = null;
-    ser.loadStart(memoFile);
+    FileInputStream fis = new FileInputStream(memoFile);
+
     try {
+      ser.loadStart(fis);
 
       // VERSION
       Integer version = ser.loadVersion();
@@ -790,6 +796,11 @@ public class Memoizer extends ReaderWrapper {
       deleteQuietly(memoFile);
       return null;
     } finally {
+      try {
+        fis.close();
+      } catch (Exception e) {
+        LOGGER.warn("error closing input stream", fis);
+      }
       ser.loadStop();
       sw.stop("loci.formats.Memoizer.loadMemo");
     }
@@ -808,13 +819,16 @@ public class Memoizer extends ReaderWrapper {
     final Deser ser = getDeser();
     final StopWatch sw = stopWatch();
     boolean rv = true;
+    FileOutputStream fos = null;
+
     try {
       // Create temporary location for output
       // Note: can't rename tempfile until resources are closed.
       tempFile = File.createTempFile(
         memoFile.getName(), "", memoFile.getParentFile());
 
-      ser.saveStart(tempFile);
+      fos = new FileOutputStream(tempFile);
+      ser.saveStart(fos);
 
       // Save to temporary location.
       ser.saveVersion(VERSION);
@@ -832,12 +846,18 @@ public class Memoizer extends ReaderWrapper {
 
     } finally {
 
+      try {
+        fos.close();
+      } catch (Exception e) {
+        LOGGER.warn("failed to close FileOutputStream", e);
+      }
+
       // Close the output stream quietly regardless.
       try {
         ser.saveStop();
         sw.stop("loci.formats.Memoizer.saveMemo");
       } catch (Throwable t) {
-        LOGGER.error("output close failed", t);
+        LOGGER.warn("output close failed", t);
       }
 
       // Rename temporary file if successful.
