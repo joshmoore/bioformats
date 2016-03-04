@@ -36,8 +36,11 @@ import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertTrue;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.util.UUID;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 
 import loci.common.Location;
 import loci.formats.memo.MapdbStorage;
@@ -61,6 +64,7 @@ public class MapdbSharedMemoizerTest extends AbstractMemoizerTest<MapdbStorage> 
   HTreeMap<String, String> locks;
   String uuid = UUID.randomUUID().toString();
   File dir = new File(System.getProperty("java.io.tmpdir"), uuid);
+  CountDownLatch latch = new CountDownLatch(1);
 
   /**
    * Class for using the protected methods in {@link Utils} since they
@@ -89,7 +93,18 @@ public class MapdbSharedMemoizerTest extends AbstractMemoizerTest<MapdbStorage> 
   @Override
   MapdbStorage mk(String id, File directory, boolean doInPlaceCaching) {
     // ignore directory and doInPlaceCaching
-    return new MapdbStorage(new Location(id), memos, locks);
+    return new MapdbStorage(new Location(id), memos, locks) {
+
+      @Override
+      public void commit() throws IOException {
+        try {
+          latch.await(5, TimeUnit.SECONDS);
+        } catch (InterruptedException e) {
+          throw new RuntimeException(e);
+        }
+        super.commit();
+      }
+    };
   }
 
   @Test
