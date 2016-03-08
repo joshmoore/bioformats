@@ -37,7 +37,6 @@ import static org.testng.AssertJUnit.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.util.UUID;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
