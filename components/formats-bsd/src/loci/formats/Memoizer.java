@@ -655,7 +655,7 @@ public class Memoizer extends ReaderWrapper {
    *
    * @return a {@link FileStorage} instance. If null, memoization is disabled.
    */
-  protected Storage getStorage() {
+  public Storage getStorage() {
     if (storage == null) {
       storage = new FileStorage(realFile, directory, doInPlaceCaching);
     }

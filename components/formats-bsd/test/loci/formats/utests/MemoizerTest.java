@@ -45,6 +45,8 @@ import loci.formats.memo.FileStorage;
 import org.testng.annotations.Test;
 
 /**
+ * Test for {@link loci.formats.Memoizer} instances using the standard
+ * {@link FileStorage}.
  */
 public class MemoizerTest extends AbstractMemoizerTest<FileStorage> {
 

@@ -54,6 +54,7 @@ import loci.formats.ReaderWrapper;
 import loci.formats.gui.AWTImageTools;
 import loci.formats.gui.BufferedImageReader;
 import loci.formats.in.*;
+import loci.formats.memo.FileStorage;
 import loci.formats.meta.IMetadata;
 import loci.formats.meta.MetadataRetrieve;
 import loci.formats.meta.MetadataStore;
@@ -62,7 +63,6 @@ import loci.formats.services.OMEXMLService;
 import ome.xml.model.primitives.PositiveFloat;
 import ome.xml.model.primitives.PositiveInteger;
 import ome.xml.model.primitives.Timestamp;
-
 import ome.units.quantity.Length;
 import ome.units.quantity.Quantity;
 import ome.units.quantity.Time;
@@ -2372,10 +2372,11 @@ public class FormatReaderTest {
       String tmpdir = System.getProperty("java.io.tmpdir");
       memoDir = new File(tmpdir, System.currentTimeMillis() + ".memo");
       memoDir.mkdir();
+
       Memoizer memo = new Memoizer(TestTools.getTestImageReader(), 0, memoDir);
       memo.setId(reader.getCurrentFile());
       memo.close();
-      memoFile = memo.getMemoFile(reader.getCurrentFile());
+      memoFile = ((FileStorage) memo.getStorage()).getMemoFile(reader.getCurrentFile());
       if (!memo.isSavedToMemo()) {
         result(testName, false, "Memo file not saved");
       }
