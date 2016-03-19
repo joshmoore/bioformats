@@ -9,4 +9,7 @@
   <root level="WARN">
     <appender-ref ref="stdout"/>
   </root>
+  <logger name="loci.formats.ClassList">
+    <level value="OFF"/>
+  </logger>
 </configuration>
