@@ -70,8 +70,8 @@
   <properties>
     <project.rootdir>${basedir}/../..</project.rootdir>
     <xsdfu.script>../xsd-fu/xsd-fu</xsdfu.script>
-    <xsdfu.modelpath>${basedir}/target/generated-sources/xsd-fu</xsdfu.modelpath>
-    <xsdfu.metadatapath>${basedir}/target/generated-sources/xsd-fu</xsdfu.metadatapath>
+    <xsdfu.modelpath>${basedir}/target/generated-sources</xsdfu.modelpath>
+    <xsdfu.metadatapath>${basedir}/target/generated-sources</xsdfu.metadatapath>
   </properties>
 
   <build>
