@@ -408,15 +408,18 @@ public class Memoizer extends ReaderWrapper {
     Object elapsed = options.getMetadataOption(k + ".minimumElapsed");
     Object inplace = options.getMetadataOption(k + ".inPlace");
     Object cachedir = options.getMetadataOption(k + ".cacheDirectory");
-    if (!(elapsed instanceof Long)) {
-        LOGGER.warn("config: minimumElapsed wrong type: {}", elapsed);
-        return r;
+    if (elapsed == null && inplace == null && cachedir == null) {
+      LOGGER.trace("config: Memoizer is not configured");
+      return r;
+    } else if (!(elapsed instanceof Long)) {
+      LOGGER.warn("config: minimumElapsed wrong type: {}", elapsed);
+      return r;
     } else if (!(inplace instanceof Boolean)) {
-        LOGGER.warn("config: inplace wrong type: {}", inplace);
-        return r;
+      LOGGER.warn("config: inplace wrong type: {}", inplace);
+      return r;
     } else if (cachedir != null && !(cachedir instanceof File)) {
-        LOGGER.warn("config: cachedir wrong type: {}", cachedir);
-        return r;
+      LOGGER.warn("config: cachedir wrong type: {}", cachedir);
+      return r;
     }
 
     if (((Boolean) inplace).booleanValue()) {
