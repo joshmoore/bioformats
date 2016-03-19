@@ -77,11 +77,6 @@ public class MapdbMemoizerTest extends AbstractMemoizerTest<MapdbStorage> {
     memoizer.close();
   }
 
-  public void testDefaultConstructor() throws Exception {
-    ctor();
-    assertKey();
-  }
-
   @Test
   public void testConstructorTimeElapsed() throws Exception {
     ctor0();
