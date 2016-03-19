@@ -32,6 +32,7 @@
 
 package loci.formats.memo;
 
+import java.io.Closeable;
 import java.io.File;
 
 import org.mapdb.DB;
@@ -44,6 +45,21 @@ import org.slf4j.Logger;
  * public to allow subclassing for unit tests
  */
 public class Utils {
+
+  /**
+   * Takes any number of {@link Closeable} arguments
+   * and calls {@link Closeable#close()} on each of
+   * them in a loop. Exceptions are printed at WARN.
+   **/
+  protected static void closeQuietly(Logger LOGGER, Closeable...cs) {
+    for (Closeable c : cs) {
+      try {
+        c.close();
+      } catch (Exception e) {
+        LOGGER.warn("failed to close {}", c, e);
+      }
+    }
+  }
 
   /**
    * Attempts to delete an existing file, logging at

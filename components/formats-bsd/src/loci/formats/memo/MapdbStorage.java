@@ -119,10 +119,8 @@ public class MapdbStorage implements Storage {
       cleanup = new Runnable() {
         @Override
         public void run() {
-          memos.close();
-          writeLocks.close();
-          dbs[0].close();
-          dbs[1].close();
+          Utils.closeQuietly(LOGGER,
+            memos, writeLocks, dbs[0], dbs[1]);
         }
       };
 
