@@ -38,6 +38,9 @@ import static org.testng.AssertJUnit.assertTrue;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
+
+import java.nio.channels.InterruptedByTimeoutException;
+
 import java.util.UUID;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
@@ -142,13 +145,24 @@ public class MapdbSharedMemoizerTest extends AbstractMemoizerTest<MapdbStorage> 
     if (t1.throwable != null) {
         throw t1.throwable;
     }
-    if (t2.throwable != null) {
-        throw t2.throwable;
-    }
+
+    // The second thread should have gotten an interrupted exception
+    // which it is expected to handle. Likely this means that the
+    // error will bubble up to the client which will need to retry.
+    assertTrue(t2.throwable instanceof InterruptedByTimeoutException);
+    // first successfully was created.
     assertFalse(first.isLoadedFromMemo());
     assertTrue(first.isSavedToMemo());
-    assertTrue(second.isLoadedFromMemo());
+    first.close();
+    // second failed completely.
+    assertFalse(second.isLoadedFromMemo());
     assertFalse(second.isSavedToMemo());
+    second.close();
+    // a third try should be successful
+    ctorReader0();
+    memoizer.setId(id);
+    assertTrue(memoizer.isLoadedFromMemo());
+    assertFalse(memoizer.isSavedToMemo());
   }
 
 }
@@ -159,7 +173,7 @@ class ThreadTest extends Thread {
   Memoizer memoizer;
   String id;
   Throwable throwable;
-  
+
   ThreadTest(Memoizer memoizer, String id) {
     this.memoizer = memoizer;
     this.id = id;
