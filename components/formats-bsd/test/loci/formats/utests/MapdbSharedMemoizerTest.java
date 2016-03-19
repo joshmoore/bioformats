@@ -37,11 +37,13 @@ import static org.testng.AssertJUnit.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.UUID;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
 import loci.common.Location;
+import loci.formats.Memoizer;
 import loci.formats.memo.MapdbStorage;
 import loci.formats.memo.Utils;
 
@@ -91,17 +93,17 @@ public class MapdbSharedMemoizerTest extends AbstractMemoizerTest<MapdbStorage> 
 
   @Override
   MapdbStorage mk(String id, File directory, boolean doInPlaceCaching) {
-    // ignore directory and doInPlaceCaching
+    // ignore directory and doInPlaceCaching; this represents a single
+    // shared storage instance.
     return new MapdbStorage(new Location(id), memos, locks) {
 
       @Override
-      public void commit() throws IOException {
+      public OutputStream getOutputStream() throws IOException {
         try {
-          latch.await(5, TimeUnit.SECONDS);
-        } catch (InterruptedException e) {
-          throw new RuntimeException(e);
+          return super.getOutputStream();
+        } finally {
+          latch.countDown();
         }
-        super.commit();
       }
     };
   }
@@ -117,6 +119,59 @@ public class MapdbSharedMemoizerTest extends AbstractMemoizerTest<MapdbStorage> 
     assertTrue(memoizer.isLoadedFromMemo());
     assertFalse(memoizer.isSavedToMemo());
     memoizer.close();
+  }
+
+  @Test
+  public void testTwo() throws Throwable {
+    ctorReader0();
+    Memoizer first = memoizer;
+    ctorReader0();
+    Memoizer second = memoizer;
+    memoizer = null;
+
+    ThreadTest t1 = new ThreadTest(first, id);
+    ThreadTest t2 = new ThreadTest(second, id);
+    t1.start();
+    latch.await(5, TimeUnit.SECONDS);
+    // At this point, we know that the first thread has already acquired
+    // the write lock
+    t2.start();
+    t1.join();
+    t2.join();
+    // Now both threads are done and we can test their state.
+    if (t1.throwable != null) {
+        throw t1.throwable;
+    }
+    if (t2.throwable != null) {
+        throw t2.throwable;
+    }
+    assertFalse(first.isLoadedFromMemo());
+    assertTrue(first.isSavedToMemo());
+    assertTrue(second.isLoadedFromMemo());
+    assertFalse(second.isSavedToMemo());
+  }
+
+}
+
+class ThreadTest extends Thread {
+
+
+  Memoizer memoizer;
+  String id;
+  Throwable throwable;
+  
+  ThreadTest(Memoizer memoizer, String id) {
+    this.memoizer = memoizer;
+    this.id = id;
+  }
+
+  @Override
+  public void run() {
+    try {
+      memoizer.setId(id);
+    } catch (Throwable t) {
+      this.throwable = t;
+    }
   }
 
 }
