@@ -38,9 +38,7 @@ import static org.testng.AssertJUnit.assertTrue;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
-
 import java.nio.channels.InterruptedByTimeoutException;
-
 import java.util.UUID;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
@@ -98,17 +96,7 @@ public class MapdbSharedMemoizerTest extends AbstractMemoizerTest<MapdbStorage> 
   MapdbStorage mk(String id, File directory, boolean doInPlaceCaching) {
     // ignore directory and doInPlaceCaching; this represents a single
     // shared storage instance.
-    return new MapdbStorage(new Location(id), memos, locks) {
-
-      @Override
-      public OutputStream getOutputStream() throws IOException {
-        try {
-          return super.getOutputStream();
-        } finally {
-          latch.countDown();
-        }
-      }
-    };
+    return new TestMapdbStorage(id, memos, locks, latch);
   }
 
   @Test
@@ -125,11 +113,13 @@ public class MapdbSharedMemoizerTest extends AbstractMemoizerTest<MapdbStorage> 
   }
 
   @Test
-  public void testTwo() throws Throwable {
+  public void testSecondThreadThrows() throws Throwable {
     ctorReader0();
     Memoizer first = memoizer;
+    TestMapdbStorage s1 = (TestMapdbStorage) first.getStorage();
     ctorReader0();
     Memoizer second = memoizer;
+    TestMapdbStorage s2 = (TestMapdbStorage) second.getStorage();
     memoizer = null;
 
     ThreadTest t1 = new ThreadTest(first, id);
@@ -141,7 +131,8 @@ public class MapdbSharedMemoizerTest extends AbstractMemoizerTest<MapdbStorage> 
     t2.start();
     t1.join();
     t2.join();
-    // Now both threads are done and we can test their state.
+
+    // Make sure that nothing unexpected happened.
     if (t1.throwable != null) {
         throw t1.throwable;
     }
@@ -150,6 +141,7 @@ public class MapdbSharedMemoizerTest extends AbstractMemoizerTest<MapdbStorage> 
     // which it is expected to handle. Likely this means that the
     // error will bubble up to the client which will need to retry.
     assertTrue(t2.throwable instanceof InterruptedByTimeoutException);
+
     // first successfully was created.
     assertFalse(first.isLoadedFromMemo());
     assertTrue(first.isSavedToMemo());
@@ -169,10 +161,9 @@ public class MapdbSharedMemoizerTest extends AbstractMemoizerTest<MapdbStorage> 
 
 class ThreadTest extends Thread {
 
-
-  Memoizer memoizer;
-  String id;
-  Throwable throwable;
+  final Memoizer memoizer;
+  final String id;
+  volatile Throwable throwable;
 
   ThreadTest(Memoizer memoizer, String id) {
     this.memoizer = memoizer;
@@ -185,6 +176,29 @@ class ThreadTest extends Thread {
       memoizer.setId(id);
     } catch (Throwable t) {
       this.throwable = t;
+    }
+  }
+
+}
+
+class TestMapdbStorage extends MapdbStorage {
+
+  CountDownLatch latch;
+
+  TestMapdbStorage(String id,
+          HTreeMap<String, byte[]> memos,
+          HTreeMap<String, String> locks,
+          CountDownLatch latch) {
+    super(new Location(id), memos, locks);
+    this.latch = latch;
+  }
+
+  @Override
+  public OutputStream getOutputStream() throws IOException {
+    try {
+      return super.getOutputStream();
+    } finally {
+      latch.countDown();
     }
   }
 
