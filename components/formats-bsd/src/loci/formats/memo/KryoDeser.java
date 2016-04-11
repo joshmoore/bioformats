@@ -38,6 +38,7 @@ import java.io.OutputStream;
 import loci.formats.IFormatReader;
 import loci.formats.Memoizer.Deser;
 import loci.formats.Memoizer.InvalidFileException;
+import loci.formats.Memoizer.Storage;
 
 import org.objenesis.strategy.StdInstantiatorStrategy;
 
@@ -52,9 +53,15 @@ import com.google.common.io.CountingInputStream;
  */
 public class KryoDeser implements Deser {
 
-  @Deprecated
-  final public Kryo kryo = new Kryo();
+  /**
+   * Previously a public field -- downstream users should convert to using
+   * a subclass to access this now protected field.
+   */
+  final protected Kryo kryo;
+
+  public KryoDeser()
   {
+    kryo = new Kryo();
     // See https://github.com/EsotericSoftware/kryo/issues/216
     ((Kryo.DefaultInstantiatorStrategy) kryo.getInstantiatorStrategy())
         .setFallbackInstantiatorStrategy(new StdInstantiatorStrategy());
