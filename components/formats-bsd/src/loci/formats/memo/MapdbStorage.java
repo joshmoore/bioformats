@@ -148,7 +148,6 @@ public class MapdbStorage implements Storage {
 
   @Override
   public int registerClass(Class type) throws InterruptedByTimeoutException {
-    type = map(type);
     Integer i = classReg.get(type);
     if (i == null) {
       acquireRegLock();
@@ -166,7 +165,7 @@ public class MapdbStorage implements Storage {
   public Class findClass(int registrationID) {
    Class rv = null;
    for(Object[] key: Fun.filter(classRegInverse, registrationID)){
-     return map((Class) key[1]);
+     return (Class) key[1];
    }
    return null;
   }
@@ -303,58 +302,6 @@ public class MapdbStorage implements Storage {
 
   protected void releaseRegLock() {
     writeLocks.remove(REGISTRY_KEY);
-  }
-
-  // TODO: This can be replaced with removing the registration methods.
-  private class BooleanType { }
-  private class ByteType { }
-  private class CharType { }
-  private class DoubleType { }
-  private class FloatType { }
-  private class IntType { }
-  private class LongType { }
-  private class ShortType { }
-  private class VoidType { }
-  private Class map(Class type) {
-    if (boolean.class.equals(type)) {
-        return BooleanType.class;
-    } else if (BooleanType.class.equals(type)) {
-        return boolean.class;
-    } else if (byte.class.equals(type)) {
-        return ByteType.class;
-    } else if (ByteType.class.equals(type)) {
-        return byte.class;
-    } else if (char.class.equals(type)) {
-        return CharType.class;
-    } else if (CharType.class.equals(type)) {
-        return char.class;
-    } else if (double.class.equals(type)) {
-        return DoubleType.class;
-    } else if (DoubleType.class.equals(type)) {
-        return double.class;
-    } else if (float.class.equals(type)) {
-        return FloatType.class;
-    } else if (FloatType.class.equals(type)) {
-        return float.class;
-    } else if (int.class.equals(type)) {
-        return IntType.class;
-    } else if (IntType.class.equals(type)) {
-        return int.class;
-    } else if (long.class.equals(type)) {
-        return LongType.class;
-    } else if (LongType.class.equals(type)) {
-        return long.class;
-    } else if (short.class.equals(type)) {
-        return ShortType.class;
-    } else if (ShortType.class.equals(type)) {
-        return short.class;
-    } else if (void.class.equals(type)) {
-        return VoidType.class;
-    } else if (VoidType.class.equals(type)) {
-        return void.class;
-    } else {
-       return type;
-    }
   }
 
 }
