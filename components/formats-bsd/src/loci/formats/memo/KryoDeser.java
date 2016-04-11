@@ -34,6 +34,7 @@ package loci.formats.memo;
 
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.channels.InterruptedByTimeoutException;
 
 import loci.formats.IFormatReader;
 import loci.formats.Memoizer.Deser;
@@ -41,9 +42,13 @@ import loci.formats.Memoizer.InvalidFileException;
 import loci.formats.Memoizer.Storage;
 
 import org.objenesis.strategy.StdInstantiatorStrategy;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.KryoException;
+import com.esotericsoftware.kryo.Registration;
+import com.esotericsoftware.kryo.Serializer;
 import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
 import com.google.common.io.CountingInputStream;
@@ -53,24 +58,88 @@ import com.google.common.io.CountingInputStream;
  */
 public class KryoDeser implements Deser {
 
+  private static final Logger LOGGER = LoggerFactory.getLogger(KryoDeser.class);
+
+  /**
+   * first registration ID <em>after</em> those initially defined by {@link Kryo}
+   */
+  private final static int SHIFT = new Kryo().getNextRegistrationId();
+
   /**
    * Previously a public field -- downstream users should convert to using
    * a subclass to access this now protected field.
    */
-  final protected Kryo kryo;
+  protected Kryo kryo;
 
   protected Storage storage;
 
-  public KryoDeser()
-  {
-    kryo = new Kryo();
+  protected void initialize() {
+
+    kryo = new Kryo() {
+
+    @Override
+    public Registration register(Class type, Serializer serializer) {
+      try {
+        int classID = storage.registerClass(type);
+        return register(new Registration(type, serializer, classID));
+      } catch (InterruptedByTimeoutException e) {
+        throw new RuntimeException(e);
+      }
+    }
+
+    @Override
+    public Registration register(Class type) {
+      throw new RuntimeException("only register(Class, Serializer) is allowed");
+    }
+
+    @Override
+    public Registration register(Class type, int id) {
+      throw new RuntimeException("only register(Class, Serializer) is allowed");
+    }
+
+    @Override
+    public Registration register(Class type, Serializer serializer, int id) {
+      throw new RuntimeException("only register(Class, Serializer) is allowed");
+    }
+
+      @Override
+      public Registration getRegistration(Class type) {
+          if (type == null) return null;
+          Registration reg = null;
+          try {
+            reg = super.getRegistration(type);
+          } catch (IllegalArgumentException iae) {
+            try {
+              int classID = storage.registerClass(type);
+              // Indexing starts with a number of primitive entries like
+              // [1, String] so we allow shifting
+              reg = new Registration(type, getDefaultSerializer(type), classID);
+              register(reg);
+              LOGGER.debug("Registered {}", reg);
+            } catch (InterruptedByTimeoutException ibte) {
+              // Could try a retry...
+              throw new RuntimeException(ibte);
+            }
+          }
+          return reg;
+      }
+
+      @Override
+      public Registration readClass(Input input) {
+        int classID = input.readInt(true);
+        if (classID == 0) return null;
+        Class type = storage.findClass(classID);
+        Registration reg = getRegistration(type);
+        if (reg == null) throw new KryoException(
+                "Encountered unregistered class ID: " + classID);
+        return reg;
+      }
+
+    };
     // See https://github.com/EsotericSoftware/kryo/issues/216
     ((Kryo.DefaultInstantiatorStrategy) kryo.getInstantiatorStrategy())
         .setFallbackInstantiatorStrategy(new StdInstantiatorStrategy());
-    // The goal here is to eventually turn this on, but for the moment,
-    // the getRegistration method will auto-register, so required=true
-    // would have no effect.
-    // kryo.setRegistrationRequired(true);
+    kryo.setRegistrationRequired(true);
   }
 
   protected Input input;
@@ -81,6 +150,7 @@ public class KryoDeser implements Deser {
 
   public void setStorage(Storage storage) {
     this.storage = storage;
+    initialize();
   }
 
   @Override

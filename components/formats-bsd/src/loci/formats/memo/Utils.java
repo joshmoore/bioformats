@@ -34,9 +34,13 @@ package loci.formats.memo;
 
 import java.io.Closeable;
 import java.io.File;
+import java.util.NavigableSet;
+import java.util.TreeSet;
 
+import org.mapdb.Bind;
 import org.mapdb.DB;
 import org.mapdb.DBMaker;
+import org.mapdb.Fun;
 import org.mapdb.HTreeMap;
 import org.mapdb.Serializer;
 import org.slf4j.Logger;
@@ -109,6 +113,7 @@ public class Utils {
   protected static DB lockDB() {
     return DBMaker.memoryDB()
       .transactionDisable()
+      .serializerRegisterClass(int.class)
       //.cacheWeakRefEnable()
       //.cacheExecutorEnable()
       .make();
@@ -120,6 +125,22 @@ public class Utils {
       .keySerializer(Serializer.STRING)
       .valueSerializer(Serializer.BYTE_ARRAY)
       .makeOrGet();
+  }
+
+  protected static HTreeMap<Class, Integer> regTree(DB db) {
+    return db
+      .hashMapCreate("classRegistry")
+      .keySerializer(Serializer.CLASS)
+      .valueSerializer(Serializer.INTEGER)
+      .makeOrGet();
+  }
+
+  protected static NavigableSet<Object[]> inverse(HTreeMap<Class, Integer> map) {
+    NavigableSet<Object[]> inverseMapping = new TreeSet<Object[]>(
+            Fun.COMPARABLE_ARRAY_COMPARATOR);
+
+    Bind.mapInverse(map, inverseMapping);
+    return inverseMapping;
   }
 
   protected static HTreeMap<String, String> lockTree(DB db) {

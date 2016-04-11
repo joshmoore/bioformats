@@ -41,12 +41,14 @@ import java.io.OutputStream;
 import java.nio.channels.InterruptedByTimeoutException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.NavigableSet;
 import java.util.UUID;
 
 import loci.common.Location;
 import loci.formats.Memoizer.Storage;
 
 import org.mapdb.DB;
+import org.mapdb.Fun;
 import org.mapdb.HTreeMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -67,6 +69,10 @@ public class MapdbStorage implements Storage {
 
   private final HTreeMap<String, byte[]> memos;
 
+  private final HTreeMap<Class, Integer> classReg;
+
+  private final NavigableSet<Object[]> classRegInverse;
+
   private final HTreeMap<String, String> writeLocks;
 
   private boolean lockHeld;
@@ -81,10 +87,14 @@ public class MapdbStorage implements Storage {
 
   // -- Constructors --
 
-  public MapdbStorage(Location realFile, HTreeMap<String, byte[]> memos,
+  public MapdbStorage(Location realFile,
+      HTreeMap<String, byte[]> memos,
+      HTreeMap<Class, Integer> classReg,
       HTreeMap<String, String> writeLocks) {
     this.key = realFile.getAbsolutePath();
     this.memos = memos;
+    this.classReg = classReg;
+    this.classRegInverse = Utils.inverse(classReg);
     this.writeLocks = writeLocks;
   }
 
@@ -93,6 +103,8 @@ public class MapdbStorage implements Storage {
     if (directory == null && !doInPlaceCaching) {
       LOGGER.debug("skipping memo: no directory given");
       memos = null;
+      classReg = null;
+      classRegInverse = null;
       writeLocks = null;
     } else {
       File writeDirectory = null;
@@ -109,11 +121,15 @@ public class MapdbStorage implements Storage {
       } catch (Exception e) {
         LOGGER.error("failed to initialize db: {}", writeDirectory, e);
         memos = null;
+        classReg = null;
+        classRegInverse = null;
         writeLocks = null;
         return;
       }
 
       memos = Utils.memoTree(dbs[0]);
+      classReg = Utils.regTree(dbs[0]);
+      classRegInverse = Utils.inverse(classReg);
       writeLocks = Utils.lockTree(dbs[1]);
 
       cleanup = new Runnable() {
@@ -129,6 +145,31 @@ public class MapdbStorage implements Storage {
   }
 
   // -- Interface methods --
+
+  @Override
+  public int registerClass(Class type) throws InterruptedByTimeoutException {
+    type = map(type);
+    Integer i = classReg.get(type);
+    if (i == null) {
+      acquireRegLock();
+      try {
+        i = Long.valueOf(classReg.mappingCount()).intValue();
+        classReg.put(type, ++i);
+      } finally {
+        releaseRegLock();
+      }
+    }
+    return i;
+  }
+
+  @Override
+  public Class findClass(int registrationID) {
+   Class rv = null;
+   for(Object[] key: Fun.filter(classRegInverse, registrationID)){
+     return map((Class) key[1]);
+   }
+   return null;
+  }
 
   public boolean readReady() {
     // If it exists, it's ready.
@@ -234,9 +275,85 @@ public class MapdbStorage implements Storage {
     }
   }
 
+  private static final String REGISTRY_KEY = "  [[.REGISTRY.KEY.]]  ";
+
   protected void releaseLock() {
     if (lockHeld) {
       writeLocks.remove(key);
+    }
+  }
+
+  protected void acquireRegLock() throws InterruptedByTimeoutException {
+    if (!writeReady()) {
+      throw new IllegalStateException("no locking db available");
+    }
+
+    // Attempt lock
+    if (uuid == null) {
+        uuid = UUID.randomUUID().toString();
+    }
+    String old = writeLocks.putIfAbsent(REGISTRY_KEY, uuid);
+    boolean regLockHeld = (old == null || uuid.equals(old)); // i.e. previously unset.
+
+    if (!regLockHeld) {
+      // Locked by others
+      throw new InterruptedByTimeoutException();
+    }
+  }
+
+  protected void releaseRegLock() {
+    writeLocks.remove(REGISTRY_KEY);
+  }
+
+  // TODO: This can be replaced with removing the registration methods.
+  private class BooleanType { }
+  private class ByteType { }
+  private class CharType { }
+  private class DoubleType { }
+  private class FloatType { }
+  private class IntType { }
+  private class LongType { }
+  private class ShortType { }
+  private class VoidType { }
+  private Class map(Class type) {
+    if (boolean.class.equals(type)) {
+        return BooleanType.class;
+    } else if (BooleanType.class.equals(type)) {
+        return boolean.class;
+    } else if (byte.class.equals(type)) {
+        return ByteType.class;
+    } else if (ByteType.class.equals(type)) {
+        return byte.class;
+    } else if (char.class.equals(type)) {
+        return CharType.class;
+    } else if (CharType.class.equals(type)) {
+        return char.class;
+    } else if (double.class.equals(type)) {
+        return DoubleType.class;
+    } else if (DoubleType.class.equals(type)) {
+        return double.class;
+    } else if (float.class.equals(type)) {
+        return FloatType.class;
+    } else if (FloatType.class.equals(type)) {
+        return float.class;
+    } else if (int.class.equals(type)) {
+        return IntType.class;
+    } else if (IntType.class.equals(type)) {
+        return int.class;
+    } else if (long.class.equals(type)) {
+        return LongType.class;
+    } else if (LongType.class.equals(type)) {
+        return long.class;
+    } else if (short.class.equals(type)) {
+        return ShortType.class;
+    } else if (ShortType.class.equals(type)) {
+        return short.class;
+    } else if (void.class.equals(type)) {
+        return VoidType.class;
+    } else if (VoidType.class.equals(type)) {
+        return void.class;
+    } else {
+       return type;
     }
   }
 

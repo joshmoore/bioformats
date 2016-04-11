@@ -37,6 +37,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.channels.InterruptedByTimeoutException;
 
 import loci.common.Location;
 import loci.common.services.DependencyException;
@@ -143,6 +144,24 @@ public class Memoizer extends ReaderWrapper {
    * for later retrieval.
    */
   public interface Storage {
+
+    /**
+     * Registers the given type in a persistent, ordered way such that calls
+     * to this method with the same class will always return the same Integer
+     * even between JVM restarts.
+     *
+     * @throws InterruptedByTimeoutException
+     */
+    int registerClass(Class type) throws InterruptedByTimeoutException;
+
+    /**
+     * Lookup the value which was pass to {@link #registerClass(Class)} by the
+     * value which that method returned.
+     *
+     * @param registrationID
+     * @return null if the ID is not found.
+     */
+    Class findClass(int registrationID);
 
     /**
      * Whether or not the underlying storage mechanism can be read. Usually

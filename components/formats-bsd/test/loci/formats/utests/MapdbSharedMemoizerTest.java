@@ -63,6 +63,7 @@ public class MapdbSharedMemoizerTest extends AbstractMemoizerTest<MapdbStorage> 
 
   DB memoDB, lockDB;
   HTreeMap<String, byte[]> memos;
+  HTreeMap<Class, Integer> classReg;
   HTreeMap<String, String> locks;
   String uuid = UUID.randomUUID().toString();
   File dir = new File(System.getProperty("java.io.tmpdir"), uuid);
@@ -77,6 +78,7 @@ public class MapdbSharedMemoizerTest extends AbstractMemoizerTest<MapdbStorage> 
       t.memoDB = memoDB(t.dir);
       t.lockDB = lockDB();
       t.memos = memoTree(t.memoDB);
+      t.classReg = regTree(t.memoDB);
       t.locks = lockTree(t.lockDB);
     }
   }
@@ -96,7 +98,7 @@ public class MapdbSharedMemoizerTest extends AbstractMemoizerTest<MapdbStorage> 
   MapdbStorage mk(String id, File directory, boolean doInPlaceCaching) {
     // ignore directory and doInPlaceCaching; this represents a single
     // shared storage instance.
-    return new TestMapdbStorage(id, memos, locks, latch);
+    return new TestMapdbStorage(id, memos, classReg, locks, latch);
   }
 
   @Test
@@ -187,9 +189,10 @@ class TestMapdbStorage extends MapdbStorage {
 
   TestMapdbStorage(String id,
           HTreeMap<String, byte[]> memos,
+          HTreeMap<Class, Integer> classReg,
           HTreeMap<String, String> locks,
           CountDownLatch latch) {
-    super(new Location(id), memos, locks);
+    super(new Location(id), memos, classReg, locks);
     this.latch = latch;
   }
 
