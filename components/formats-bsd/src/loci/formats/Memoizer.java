@@ -89,6 +89,8 @@ public class Memoizer extends ReaderWrapper {
    */
   public interface Deser {
 
+    void setStorage(Storage storage);
+
     void loadStart(InputStream is) throws IOException;
 
     Integer loadVersion() throws IOException;
@@ -697,6 +699,7 @@ public class Memoizer extends ReaderWrapper {
 
     final Deser ser = getDeser();
     final Storage storage = getStorage();
+    ser.setStorage(storage);
 
     if (!storage.readReady()) {
       LOGGER.trace("storage not ready");
@@ -817,6 +820,7 @@ public class Memoizer extends ReaderWrapper {
 
     final Deser ser = getDeser();
     final Storage storage = getStorage();
+    ser.setStorage(storage);
     final StopWatch sw = stopWatch();
     boolean rv = true;
 

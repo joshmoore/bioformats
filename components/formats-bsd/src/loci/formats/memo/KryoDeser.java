@@ -59,6 +59,8 @@ public class KryoDeser implements Deser {
    */
   final protected Kryo kryo;
 
+  protected Storage storage;
+
   public KryoDeser()
   {
     kryo = new Kryo();
@@ -76,6 +78,10 @@ public class KryoDeser implements Deser {
   protected Output output;
 
   protected CountingInputStream cis;
+
+  public void setStorage(Storage storage) {
+    this.storage = storage;
+  }
 
   @Override
   public void close() {
