@@ -33,6 +33,8 @@
 package loci.formats.memo;
 
 import java.nio.channels.InterruptedByTimeoutException;
+import java.util.HashMap;
+import java.util.Map;
 
 import loci.formats.Memoizer.Storage;
 
@@ -44,31 +46,56 @@ import com.esotericsoftware.kryo.KryoException;
 import com.esotericsoftware.kryo.Registration;
 import com.esotericsoftware.kryo.Serializer;
 import com.esotericsoftware.kryo.io.Input;
+import com.esotericsoftware.kryo.util.MapReferenceResolver;
 
 public class CustomKryo extends Kryo {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(CustomKryo.class);
+  
+  private static Map<Class, Integer> primitives = new HashMap<Class, Integer>();
+  static {
+    // Defining them here so that if future versions of the superclass Kryo
+    // change the ordering, our memo file won't be invalidated.
+    primitives.put(int.class, 1);
+    primitives.put(String.class, 2);
+    primitives.put(float.class, 3);
+    primitives.put(boolean.class, 4);
+    primitives.put(byte.class, 5);
+    primitives.put(char.class, 6);
+    primitives.put(short.class, 7);
+    primitives.put(long.class, 8);
+    primitives.put(double.class, 9);
+    primitives.put(void.class, 10);
+  }
+
+  /** Reserve space for 20 primitives */
+  private static int PRIMITIVES = 20;
 
   private final Storage storage;
 
-  private int primitive = 1;
-
   public CustomKryo(Storage storage) {
+    super(); // new CustomKryoResolver(), null); //new MapReferenceResolver());
+    // Initialization in the super class won't have access to storage!
     this.storage = storage;
   }
 
   @Override
   public Registration register(Class type, Serializer serializer) {
     if (type.isPrimitive() || String.class.equals(type)) {
-      primitive++;
-      return super.register(type, serializer);
+      // Used during initialization
+      int val = primitives.get(type);
+      LOGGER.debug("Primitive [{}, {}]", val, type);
+      return register(new Registration(type, serializer, val));
     }
+    throw new RuntimeException(type.toString());
+    /*
     try {
       int classID = storage.registerClass(type);
       return register(new Registration(type, serializer, classID));
     } catch (InterruptedByTimeoutException e) {
       throw new RuntimeException(e);
     }
+    */
   }
 
   @Override
@@ -97,7 +124,7 @@ public class CustomKryo extends Kryo {
           int classID = storage.registerClass(type);
           // Indexing starts with a number of primitive entries like
           // [1, String] so we allow shifting
-          reg = new Registration(type, getDefaultSerializer(type), classID+primitive);
+          reg = new Registration(type, getDefaultSerializer(type), classID+PRIMITIVES);
           register(reg);
           LOGGER.debug("Registered {}", reg);
         } catch (InterruptedByTimeoutException ibte) {
@@ -112,7 +139,7 @@ public class CustomKryo extends Kryo {
   public Registration readClass(Input input) {
     int classID = input.readInt(true);
     if (classID == 0) return null;
-    Class type = storage.findClass(classID-primitive);
+    Class type = storage.findClass(classID-PRIMITIVES);
     Registration reg = getRegistration(type);
     if (reg == null) throw new KryoException(
             "Encountered unregistered class ID: " + classID);

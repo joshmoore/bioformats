@@ -87,7 +87,9 @@ public class KryoDeser implements Deser {
     try {
       loadStop();
       saveStop();
-      kryo.reset();
+      if (kryo != null) {
+        kryo.reset();
+      }
     } catch (KryoException ke) {
       throw new InvalidFileException(ke);
     }
