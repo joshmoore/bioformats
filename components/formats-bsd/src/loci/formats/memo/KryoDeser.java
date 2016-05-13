@@ -48,6 +48,7 @@ import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.KryoException;
 import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
+import com.esotericsoftware.kryo.util.MapReferenceResolver;
 import com.google.common.io.CountingInputStream;
 
 /**
@@ -64,7 +65,7 @@ public class KryoDeser implements Deser {
   protected Kryo kryo;
 
   protected void initialize(Storage storage) {
-    kryo = new CustomKryo(storage);
+    kryo = new Kryo(new CustomKryo(storage), new MapReferenceResolver());
     // See https://github.com/EsotericSoftware/kryo/issues/216
     ((Kryo.DefaultInstantiatorStrategy) kryo.getInstantiatorStrategy())
         .setFallbackInstantiatorStrategy(new StdInstantiatorStrategy());
